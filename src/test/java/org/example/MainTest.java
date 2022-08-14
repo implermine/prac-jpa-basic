@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JpaMainTest {
+class MainTest {
 
     @Test
     @DisplayName("그냥 emf와 em 생성 로직")
