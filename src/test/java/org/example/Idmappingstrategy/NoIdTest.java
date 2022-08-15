@@ -49,4 +49,46 @@ public class NoIdTest {
         System.out.println("=== After commit");
 
     }
+
+    @Test
+    @DisplayName("기본 키 내가 넣으면 insert 쿼리 바로 안나가는거 확인, 쓰기 지연 저장소는 스택처럼 쌓이는것이지 서로 INSERT-DELETE 끼리 보간하거나 그런 관계는 없다")
+    void test2(){
+        Member member = new Member();
+        member.setId(1L);
+
+        System.out.println("=== Before persist");
+        em.persist(member);
+        System.out.println("=== After persist");
+
+        System.out.println("=== Before remove");
+        em.remove(member);
+        System.out.println("=== After remove");
+
+
+
+        System.out.println("=== Before flush");
+        em.flush();
+
+        /**
+         * 여기서 `2번의 쿼리`가 날라가야 정상이다.
+         *
+         * Hibernate:
+         *     insert
+         *     into
+         *         MEMBER
+         *         (age, createdDate, description, lastModifiedDate, name, roleType, id)
+         *     values
+         *         (?, ?, ?, ?, ?, ?, ?)
+         * Hibernate:
+         *     delete
+         *     from
+         *         MEMBER
+         *     where
+         *         id=?
+         *
+         */
+        System.out.println("=== After flush");
+
+        tx.rollback();
+    }
 }
