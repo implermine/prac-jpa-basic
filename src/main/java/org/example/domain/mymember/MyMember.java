@@ -1,4 +1,4 @@
-package org.example.domain.user;
+package org.example.domain.mymember;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
