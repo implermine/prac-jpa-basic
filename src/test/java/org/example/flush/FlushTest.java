@@ -1,7 +1,7 @@
 package org.example.flush;
 
 import org.assertj.core.api.Assertions;
-import org.example.Member;
+import org.example.SomeMember;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,12 +37,12 @@ public class FlushTest {
     @Test
     @DisplayName("flush를 호출하면 commit 전에도 SQL 쿼리가 쓰기 지연 저장소에서 fire 되는지")
     void flushTest1(){
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원1");
 
 
-        em.persist(member); // 스냅샷 찍고, 엔티티 저장하고, key(ID) 저장하고, 쓰기 지연 저장소에 INSERT 쿼리 저장함
+        em.persist(someMember); // 스냅샷 찍고, 엔티티 저장하고, key(ID) 저장하고, 쓰기 지연 저장소에 INSERT 쿼리 저장함
 
         System.out.println("=== Before Flush");
         em.flush(); // INSERT 쿼리 방출
@@ -71,15 +71,15 @@ public class FlushTest {
     @Test
     @DisplayName("flush를 호출하면 1차 캐시가 비워지는지") // 비워지지 않음
     void flushTest2(){
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원1");
 
 
-        em.persist(member); // 스냅샷 찍고, 엔티티 저장하고, key(ID) 저장하고, 쓰기 지연 저장소에 INSERT 쿼리 저장함
+        em.persist(someMember); // 스냅샷 찍고, 엔티티 저장하고, key(ID) 저장하고, 쓰기 지연 저장소에 INSERT 쿼리 저장함
 
         em.flush(); // INSERT 쿼리 방출
 
-        Assertions.assertThat(em.contains(member)).isTrue();
+        Assertions.assertThat(em.contains(someMember)).isTrue();
     }
 }

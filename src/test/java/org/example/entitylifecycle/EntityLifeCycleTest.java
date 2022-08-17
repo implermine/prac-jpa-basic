@@ -1,7 +1,7 @@
 package org.example.entitylifecycle;
 
 import org.assertj.core.api.Assertions;
-import org.example.Member;
+import org.example.SomeMember;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,11 +50,11 @@ public class EntityLifeCycleTest {
     void state_transient(){
 
 
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원1");
 
-        Assertions.assertThat(em.contains(member)).isFalse();
+        Assertions.assertThat(em.contains(someMember)).isFalse();
 
     }
 
@@ -64,19 +64,19 @@ public class EntityLifeCycleTest {
 
 
 
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원1");
 
         // 영속화
-        em.persist(member);
+        em.persist(someMember);
 
-        Assertions.assertThat(em.contains(member)).isTrue();
+        Assertions.assertThat(em.contains(someMember)).isTrue();
 
         // 준영속화
-        em.detach(member);
+        em.detach(someMember);
 
-        Assertions.assertThat(em.contains(member)).isFalse();
+        Assertions.assertThat(em.contains(someMember)).isFalse();
 
     }
 
@@ -85,69 +85,69 @@ public class EntityLifeCycleTest {
     void state_removed(){
 
 
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원1");
 
         // 영속화
-        em.persist(member);
+        em.persist(someMember);
 
-        Assertions.assertThat(em.contains(member)).isTrue();
+        Assertions.assertThat(em.contains(someMember)).isTrue();
 
         // 삭제 (삭제 마킹을 해 두고, flush 시, DELETE SQL 생성해서 flush 함)
         // 또한 비영속화 함.
-        em.remove(member);
+        em.remove(someMember);
 
-        Assertions.assertThat(em.contains(member)).isFalse();
+        Assertions.assertThat(em.contains(someMember)).isFalse();
 
     }
 
     @Test
     @DisplayName("영속상태 일 때, 1차 캐시에서 조회, 추가쿼리가 안나가는것을 확인")
     void no_additional_query_when_select_in_first_cache(){
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원 1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원 1");
 
         // 1차 캐시에 저장
-        em.persist(member);
+        em.persist(someMember);
 
         // DB가 아닌 1차 캐시에서 쿼리하므로 추가 쿼리 발생x
         System.out.println("=== Before Find ===");
-        Member member1 = em.find(Member.class, 1L);
+        SomeMember someMember1 = em.find(SomeMember.class, 1L);
     }
 
     @Test
     @DisplayName("영속상태 일 때, 영속 엔티티의 동일성 보장")
     void should_same_when_select_in_same_persistence_context(){
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("회원 1");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("회원 1");
 
         // 1차 캐시에 저장
-        em.persist(member);
+        em.persist(someMember);
 
         // DB가 아닌 1차 캐시에서 쿼리하므로 추가 쿼리 발생x
         System.out.println("=== Before Find ===");
-        Member member1 = em.find(Member.class, 1L);
-        Member member2 = em.find(Member.class, 1L);
+        SomeMember someMember1 = em.find(SomeMember.class, 1L);
+        SomeMember someMember2 = em.find(SomeMember.class, 1L);
 
-        Assertions.assertThat(member1).isSameAs(member2);
+        Assertions.assertThat(someMember1).isSameAs(someMember2);
     }
 
     @Test
     @DisplayName("엔티티 등록, 트랜잭션을 지원하는 쓰기 지연")
     void lazy_write(){
-        Member member1 = new Member();
-        member1.setId(1L);
-        member1.setName("회원 1");
+        SomeMember someMember1 = new SomeMember();
+        someMember1.setId(1L);
+        someMember1.setName("회원 1");
 
-        Member member2 = new Member();
-        member2.setId(2L);
-        member2.setName("회원 2");
+        SomeMember someMember2 = new SomeMember();
+        someMember2.setId(2L);
+        someMember2.setName("회원 2");
 
-        em.persist(member1);
-        em.persist(member2);
+        em.persist(someMember1);
+        em.persist(someMember2);
         // 여기까지 INSERT SQL을 데이터베이스에 보내지 않는다.
         System.out.println("===Before Commit===");
 
@@ -158,16 +158,16 @@ public class EntityLifeCycleTest {
     @Test
     @DisplayName("엔티티 수정 , 변경 감지")
     void dirty_check(){
-        Member member1 = new Member();
-        member1.setId(1L);
-        member1.setName("회원 1");
+        SomeMember someMember1 = new SomeMember();
+        someMember1.setId(1L);
+        someMember1.setName("회원 1");
 
-        em.persist(member1);
+        em.persist(someMember1);
 
-        Member foundMember = em.find(Member.class, 1L);
+        SomeMember foundSomeMember = em.find(SomeMember.class, 1L);
         // find하는 순간에 스냅샷을 찍는다.
 
-        foundMember.setName("변경: 회원 1");
+        foundSomeMember.setName("변경: 회원 1");
 
         System.out.println("===Before Commit===");
 

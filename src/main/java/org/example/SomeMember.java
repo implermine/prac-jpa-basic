@@ -13,7 +13,7 @@ import java.util.Date;
 @Table(name = "MEMBER")
 @Getter
 @Setter
-public class Member {
+public class SomeMember {
 
     @Id
     private Long id;

@@ -8,8 +8,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MainTest {
 
     @Test
@@ -47,11 +45,11 @@ class MainTest {
 
         tx.begin();
 
-        Member member = new Member();
-        member.setId(1L);
-        member.setName("implermine");
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
+        someMember.setName("implermine");
 
-        em.persist(member);
+        em.persist(someMember);
 
         tx.commit();
 
@@ -73,11 +71,11 @@ class MainTest {
         tx.begin();
 
         try{
-            Member member = new Member();
-            member.setId(1L);
-            member.setName("implermine");
+            SomeMember someMember = new SomeMember();
+            someMember.setId(1L);
+            someMember.setName("implermine");
 
-            em.persist(member);
+            em.persist(someMember);
 
 
             tx.commit();

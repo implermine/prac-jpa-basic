@@ -1,4 +1,4 @@
-package org.example.domain.item;
+package org.example.jpashop.mymember;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,15 +13,17 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Item {
+public class MyMember {
 
     @Id @GeneratedValue
-    @Column(name="ITEM_ID")
+    @Column(name = "MEMBER_ID")
     private Long id;
 
     private String name;
 
-    private int price;
+    private String city;
 
-    private int stockQuantity;
+    private String street;
+
+    private String zipCode;
 }

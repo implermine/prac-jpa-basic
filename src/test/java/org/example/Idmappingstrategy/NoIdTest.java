@@ -1,6 +1,6 @@
 package org.example.Idmappingstrategy;
 
-import org.example.Member;
+import org.example.SomeMember;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,11 +36,11 @@ public class NoIdTest {
     @Test
     @DisplayName("기본 키 내가 넣으면 insert 쿼리 바로 안나가는거 확인")
     void test(){
-        Member member = new Member();
-        member.setId(1L);
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
 
         System.out.println("=== Before persist");
-        em.persist(member);
+        em.persist(someMember);
         System.out.println("=== After persist");
 
 
@@ -53,15 +53,15 @@ public class NoIdTest {
     @Test
     @DisplayName("기본 키 내가 넣으면 insert 쿼리 바로 안나가는거 확인, 쓰기 지연 저장소는 스택처럼 쌓이는것이지 서로 INSERT-DELETE 끼리 보간하거나 그런 관계는 없다")
     void test2(){
-        Member member = new Member();
-        member.setId(1L);
+        SomeMember someMember = new SomeMember();
+        someMember.setId(1L);
 
         System.out.println("=== Before persist");
-        em.persist(member);
+        em.persist(someMember);
         System.out.println("=== After persist");
 
         System.out.println("=== Before remove");
-        em.remove(member);
+        em.remove(someMember);
         System.out.println("=== After remove");
 
 

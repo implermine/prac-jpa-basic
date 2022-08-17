@@ -1,4 +1,4 @@
-package org.example.domain.orderitem;
+package org.example.jpashop.orderitem;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

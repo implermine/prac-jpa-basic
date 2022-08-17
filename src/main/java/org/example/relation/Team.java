@@ -1,5 +1,6 @@
-package org.example.domain.mymember;
+package org.example.relation;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,17 +14,11 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MyMember {
+public class Team {
 
-    @Id @GeneratedValue
-    @Column(name = "MEMBER_ID")
+    @Id
+    @Column(name = "ID")
     private Long id;
 
     private String name;
-
-    private String city;
-
-    private String street;
-
-    private String zipCode;
 }

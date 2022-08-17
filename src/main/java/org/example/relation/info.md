@@ -1,0 +1,1 @@
+Member 와 Team은 N:1 관계

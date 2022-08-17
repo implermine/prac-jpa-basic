@@ -26,8 +26,11 @@ import javax.persistence.*;
 //)
 @SequenceGenerator(
         name = "BOARD_SEQ_GENERATOR",
-        sequenceName = "MYSEQUENCE"//<- 실제 시퀀스를 그대로 쓰고 싶으면 1 로 두고 이건 increment Size가 아님, 이거 늘리면 persist 할 때마다 쿼리 안함.
-        // increment Size는 JPA에서 만들땐 무조건 1인듯 함.
+        sequenceName = "SOMESEQUENCE"
+        // incrementSize의
+        //<- 실제 시퀀스를 그대로 쓰고 싶으면 1 로 두고 이건 increment Size가 아님, 이거 늘리면 persist 할 때마다 쿼리 안함.
+        // increment Size는 JPA에서 만들땐 무조건 1인듯 함. (아님 allocationSize를 따름) 그럼에도 불구하고,
+        // increment Size를 씹고, 1씩 증가시킴 memory에서
 )
 public class Board {
 
