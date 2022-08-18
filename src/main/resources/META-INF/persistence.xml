@@ -12,11 +12,15 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
 
             <!-- 옵션 -->
-            <property name="hibernate.show_sql" value="true"/>
+<!--            <property name="hibernate.show_sql" value="true"/>-->
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.highlight_sql" value="true"/>
 <!--            <property name="hibernate.use_sql_comments" value="true"/>-->
             <property name="hibernate.hbm2ddl.auto" value="create" />
 <!--            <property name="hibernate.id.new_generator_mappings" value="true"/>-->
+
+<!--            <property name="logging.level.org.hibernate.SQL" value="DEBUG"/>-->
+<!--            <property name="logging.level.org.hibernate.type.descriptor.sql.BasicBinder" value="TRACE"/>-->
         </properties>
     </persistence-unit>
 </persistence>
