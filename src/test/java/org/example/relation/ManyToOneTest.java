@@ -127,7 +127,7 @@ public class ManyToOneTest {
 
         System.out.println("/// Expect Insert Query");
         em.flush();
-        em.clear();
+        em.clear(); // savedTeam detached
         System.out.println("///");
 
 
@@ -157,13 +157,11 @@ public class ManyToOneTest {
         System.out.println("///");
         System.out.println("After First Flush");
 
-
-        member.setTeam(savedTeam); // 팀을 기존팀으로 바꾼거지
+        Team savedTeam2 = em.find(Team.class, 1L);
+        member.setTeam(savedTeam2); // 팀을 기존팀으로 바꾼거지 이거 만약에 detached 였으면, 다시 조회해서 영속화하네.
 
         System.out.println("Before Second Flush");
         System.out.println("/// Expect 1 update query");
-        // 그러나 2개의 쿼리가 나간다, savedTeam을 조회하는 SELECT 쿼리가 발생한 후에 UPDATE 쿼리가 발생하는데,
-        // 이는 부모 데이터가 존재하는지 여부를 확인해, 데이터베이스 무결성을 유지하기 위함으로 보인다.
         em.flush();
         System.out.println("///");
         System.out.println("After Second Flush");

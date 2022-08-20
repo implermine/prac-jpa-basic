@@ -1,14 +1,13 @@
 package org.example.relation;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -21,4 +20,11 @@ public class Team {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "team") // 필드명 (not Physical Database Column ID)
+    private final List<Member> members = new ArrayList<>();
+
+    public void addMember(Member member){
+        member.changeTeam(this);
+    }
 }

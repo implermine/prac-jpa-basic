@@ -25,4 +25,12 @@ public class Member {
 
     @Column(name = "USERNAME")
     private String username;
+
+    /**
+     * 김영한은 연관관계 편의 메서드명을 setXXX를 안쓴다고 함.
+     */
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 }
