@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 양방향 매핑시 가장 많이 하는 실수들
  */
-public class bidirectionalTest {
+public class BidirectionalTest {
 
     /**
      * 원래 Database를 고려해보면, Foreign Key를 관리하는 Member쪽에만 데이터를 넣어주면 끝이지만,
@@ -70,7 +70,7 @@ public class bidirectionalTest {
     private EntityManager em;
     private EntityTransaction tx;
 
-    public bidirectionalTest() {
+    public BidirectionalTest() {
         emf = Persistence.createEntityManagerFactory("hello");
     }
 
