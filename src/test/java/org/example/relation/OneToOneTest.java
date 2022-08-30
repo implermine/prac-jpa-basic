@@ -44,7 +44,7 @@ public class OneToOneTest {
     }
 
     @Test
-    @DisplayName("영속화 되어있지 않은 Foreign Entity는 INSERT 전에 SELECT를 수행함")
+    @DisplayName("영속화 되어있지 않은 Foreign Entity는 UPDATE를 날림")
     void test2(){
 
         Member_OneToOne member = new Member_OneToOne();
@@ -59,6 +59,7 @@ public class OneToOneTest {
 
         em.persist(member);
         em.persist(locker);
+
 
         System.out.println("\n\n ====== Before Flush ===== \n\n");
         System.out.println("Expect 2 Insert Query\n ");
