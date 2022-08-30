@@ -23,10 +23,10 @@ public class Member_ManyToMany {
 
 //    @ManyToMany
 //    @JoinTable(name = "MEMBER_PRODUCT_MAPPING",
-//            joinColumns = @JoinColumn(name = "MEMBER_ID"), // 이름 지정해 줄 수 있음
+//            joinColumns = @JoinColumn(name = "MEMBER_ID"), // 이름 지정해 줄 수 있음 (연관관계 키) 이러면 PK이자 FK임
 //            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
 //    ) // @JoinTable이라 함은, Member도 Product도 연관관계의 주인이 아니다.
-//    // 엔티티로 승격이 더 낫다고 한다.
+//    // 엔티티로 승격이 더 낫다고 한다. 왜냐면 언제 추가했는지 등 추가 정보가 들어갈 수 있기 때문
 //    private List<Product_ManyToMany> productList = new ArrayList<>();
 
     /**

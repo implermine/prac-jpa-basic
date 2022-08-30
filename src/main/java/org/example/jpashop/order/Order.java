@@ -3,6 +3,7 @@ package org.example.jpashop.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.jpashop.delivery.Delivery;
 import org.example.jpashop.mymember.MyMember;
 import org.example.jpashop.orderitem.OrderItem;
 
@@ -35,8 +36,15 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    // 완전한 연관관계 편의메서드가 아니다
     public void addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
+
+    @OneToOne
+    @JoinColumn(name= "DELIVERY_ID")
+    private Delivery delivery;
+
+
 }

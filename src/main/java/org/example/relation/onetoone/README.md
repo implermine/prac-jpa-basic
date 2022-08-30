@@ -7,7 +7,3 @@
 * 외래 키에 데이터베이스 유니크(UNI) 제약조건 추가 // -> @ManyToOne은 Many 입장에선 OneToOne 이므로.
 
 ---
-1:N 관계에서, N 측이 Foreign Key를 갖고 있는것은 RDB 특성 상 옳다.
-그러나, 1:1 관계에선 외래키를 어느곳에서 가져도 상관없다.
-
-그래도, DataBase에서 Foreign Key를 가진측이 WAS에서도 연관관계의 주인인게 맞지 않나?
