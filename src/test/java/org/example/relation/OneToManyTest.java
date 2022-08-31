@@ -1,7 +1,7 @@
 package org.example.relation;
 
-import org.example.relation.onetomany.Member_;
-import org.example.relation.onetomany.Team_;
+import org.example.relation.onetomany.Member_OneToMany;
+import org.example.relation.onetomany.Team_OneToMany;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,10 +22,10 @@ public class OneToManyTest {
     @Test
     @DisplayName("1:N 관계에서 1이 연관관계의 주인인 경우")
     void test(){
-        Member_ member_ = new Member_();
-        member_.setId(1L);
-        member_.setUsername("member1");
-        em.persist(member_);
+        Member_OneToMany member = new Member_OneToMany();
+        member.setId(1L);
+        member.setUsername("member1");
+        em.persist(member);
 
         /**
          * 원래같앴으면 Team을 먼저 만들고 member를 그 다음 만든다음에,
@@ -33,12 +33,12 @@ public class OneToManyTest {
          * 이번엔 연관관계의 주인이 반대이니,
          * member 먼저 만들고 team을 setting 중.
          */
-        Team_ team_ = new Team_();
+        Team_OneToMany team_ = new Team_OneToMany();
         team_.setId(1L);
         team_.setName("team1");
 
         // 여기가 좀 애매해. 이게 되나?
-        team_.getMembers().add(member_);
+        team_.getMembers().add(member);
         em.persist(team_);
 
         System.out.println("\n ===================================== Before Flush ===================================== \n");

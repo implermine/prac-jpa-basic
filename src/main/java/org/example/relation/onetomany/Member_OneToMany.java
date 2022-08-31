@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member_ {
+public class Member_OneToMany {
 
     @Id
     @Column(name = "ID")
@@ -28,5 +28,5 @@ public class Member_ {
      */
     @ManyToOne
     @JoinColumn(name= "TEAM_ID", insertable = false,updatable = false) // 살짝 mappedBy랑 비슷한거같음 "읽기전용"에 집중
-    private Team_ team;
+    private Team_OneToMany team;
 }

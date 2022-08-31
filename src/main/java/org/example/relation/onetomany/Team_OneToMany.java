@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Team_ {
+public class Team_OneToMany {
 
     @Id
     @Column(name = "ID")
@@ -28,6 +28,6 @@ public class Team_ {
     // @JoinColumn이 존재하지 않는다면 JoinTable을 생성한다. 이는 이쪽 테이블에 relation에 대한 정보가 들어갈 공간이 없기 때문이다.
     // 따라서 이 경우엔 연관관계의 주인이 JoinTable이며, 더 이상 반대쪽인 Member에 Update를 쳐서 연관관계를 관리하는것이 아닌,
     // JoinTable에 INSERT를 하여 연관관계를 관리한다.
-    private final List<Member_> members = new ArrayList<>();
+    private final List<Member_OneToMany> members = new ArrayList<>();
 
 }

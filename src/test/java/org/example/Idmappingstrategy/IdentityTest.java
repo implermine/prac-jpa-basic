@@ -1,6 +1,6 @@
 package org.example.Idmappingstrategy;
 
-import org.example.Book;
+import org.example.Books;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,7 @@ public class IdentityTest {
     @Test
     @DisplayName("영속성 컨텍스트에 의해 관리되려면 반드시 PK가 있어야한다. 따라서 IDENTITY 를 사용하면 트랜잭션을 지원하는 쓰기 지연을 활용할 수 없다.")
     void test(){
-        Book book = new Book();
+        Books book = new Books();
         book.setName("책 1");
 
         System.out.println("--- Before Persist");

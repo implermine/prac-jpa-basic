@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Book {
+public class Books {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

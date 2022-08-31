@@ -20,7 +20,7 @@ import javax.persistence.*;
  * JOIN은 INSERT가 2번, SELECT는 조인 // 요거중에 고민
  * TABLE_PER_CLASS는 INSERT는 1번, SELECT가 상위 abstract class로 조회했을 때, UNION을 해서 모든 테이블을 뒤져야 한다.
  */
-public class Item_ { // public abstract class Item_
+public class Item { // public abstract class Item_ when table_per_class
 
     @Id @GeneratedValue
     private Long id;

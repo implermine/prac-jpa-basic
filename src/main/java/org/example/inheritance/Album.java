@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "DALBUM") // 슈퍼타입 DTYPE컬럼에 들어가게 될 VALUE STRING
-public class Album extends Item_ {
+public class Album extends Item {
 
     private String artist;
 

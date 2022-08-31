@@ -2,7 +2,8 @@ package org.example.jpashop.delivery;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.jpashop.order.Order;
+import org.example.jpashop.mappedsuperclass.BaseEntity;
+import org.example.jpashop.order.Order_;
 
 import javax.persistence.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Table(name="DELIVERY")
 @NoArgsConstructor
 @Getter
-public class Delivery {
+public class Delivery_ extends BaseEntity {
 
     @Id
     @Column(name = "DELIVERY_ID")
@@ -25,6 +26,6 @@ public class Delivery {
     private DeliveryStatus deliveryStatus;
 
     @OneToOne(mappedBy = "delivery")
-    private Order order;
+    private Order_ order;
 
 }
