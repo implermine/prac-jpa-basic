@@ -53,4 +53,10 @@ Member가 MemberDetail을 가지고 있을때, MemberDetail과 Member는 서로 
 
 따라서, 포함관계가 존재하며 `다형적`인 데이터 모델링이 필요할때 고려한다.
 
+## 테이블 레벨에서 적용되는 매핑이다.
+
+JPA는 DB의 투영이다. 따라서, WAS 레벨에서 객체를 분리하고 싶다면
+Inheritance 관련을 보는게 아니라
+@MappedSuperClass를 봐야함
+
 
