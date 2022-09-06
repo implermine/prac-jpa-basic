@@ -47,7 +47,7 @@ public class OneToOneTest {
         em.clear();
 
         System.out.println("\n\n=================================================================================\n\n");
-        System.out.println("Locker만 찾아오는게 아니라 Join 해서 가져오는것을 예상\n\n");
+        System.out.println("Locker만 찾아오는게 아니라 Join 해서 가져오는것을 예상? 어케했음 예상 맞음\n\n");
         Locker_OneToOne foundLocker = em.find(Locker_OneToOne.class, 7L);
         System.out.println("\n\n=================================================================================\n\n");
 

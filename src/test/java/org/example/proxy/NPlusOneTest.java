@@ -307,4 +307,8 @@ public class NPlusOneTest extends BaseCondition {
         System.out.println("\n\n 여기까지 추가 쿼리 나감이미, 왜냐면 EAGER니까 \n\n");
     }
 
+    /**
+     * 문제는 결국 List 조회이다. 혹은 1:1:N이 야기하는 N+1이다. List를 조회하지않고 1을 조회했다 하더라도 그에 연관된 Entity는 List(N)일 수 있으니까
+     */
+
 }
