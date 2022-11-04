@@ -60,7 +60,7 @@ public class EntityLifeCycleTest {
 
     @Test
     @DisplayName("준영속 상태")
-    void state_detatched(){
+    void state_detached(){
 
 
 

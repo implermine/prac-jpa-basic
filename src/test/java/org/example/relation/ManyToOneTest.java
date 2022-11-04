@@ -1,16 +1,13 @@
 package org.example.relation;
 
+import org.example.BaseCondition;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
-public class ManyToOneTest {
+public class ManyToOneTest extends BaseCondition {
     @Test
     @DisplayName("ManyToOne 객체 참조했을 때, INSERT 쿼리 잘 나가나")
     void check_two_distinct_insert_query(){
@@ -114,11 +111,61 @@ public class ManyToOneTest {
 
     }
 
+
+
+    @Test
+    @DisplayName("영속화되지 않은 부모객체(Team)을 set하고 persist 하면 어떻게 되는지")
+    /**
+     * 영속화 되지 않은 부모객체를 SELECT로 찾아서 저장한다.
+     */
+    void check_setting_transient_parent_entity(){
+        /**
+         * scenario
+         *
+         * 1. Team 저장 (persist -> flush)
+         * 2. em.clear() -> 비영속
+         *
+         * 3. Member 에 `the` Team set
+         *
+         * 4. Member 저장 (persist -> flush)
+         *
+         *
+         */
+
+        //1
+        Team team1 = new Team();
+        team1.setId(1L);
+        team1.setName("team1");
+        em.persist(team1);
+        em.flush();
+
+        //2
+        em.clear();
+
+        //3
+        Member member1 = new Member();
+        member1.setId(1L);
+        member1.setUsername("member1");
+        member1.setTeam(team1);
+
+        //4
+        System.out.println(lineDivider);
+        em.persist(member1);
+        em.flush();
+    }
+
     @Test
     @DisplayName("ManyToOne 객체 호출했을 때, UPDATE 쿼리 잘 나가나, FOREIGN KEY 대상으로")
-    void check_update_query_for_foreign_key(){
+    void check_update_query_for_foreign_key() {
 
-        //given
+        /**
+         * given
+         *
+         * 1. Team1 저장 (flush)
+         * 2. Team2 저장 (flush)
+         * 3. em.clear()
+         * 4. ㅇ
+         */
         Team savedTeam = new Team();
         savedTeam.setName("SavedTeam");
         savedTeam.setId(1L);
@@ -129,7 +176,6 @@ public class ManyToOneTest {
         em.flush();
         em.clear(); // savedTeam detached
         System.out.println("///");
-
 
 
         // 부모객체 (연관관계 미주인) 먼저 생성
@@ -168,54 +214,5 @@ public class ManyToOneTest {
 
         tx.commit();
 
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private final EntityManagerFactory emf;
-    private EntityManager em;
-    private EntityTransaction tx;
-
-    public ManyToOneTest() {
-        emf = Persistence.createEntityManagerFactory("hello");
-    }
-
-    @BeforeEach
-    public void setUp(){
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-        tx.begin();
-    }
-
-    @AfterEach
-    public void tearDown(){
-//        tx.rollback();
-        em.close();
     }
 }

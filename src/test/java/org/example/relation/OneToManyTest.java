@@ -19,6 +19,11 @@ import javax.persistence.Persistence;
  */
 public class OneToManyTest {
 
+    /**
+     * 일대다 단방향 매핑의 단점
+     * 1. 엔티티가 관리하는 외래 키가 다른 테이블에 있음
+     * 2. 연관관계 관리를 위해 추가로 UPDATE SQL 실행
+     */
     @Test
     @DisplayName("1:N 관계에서 1이 연관관계의 주인인 경우")
     void test(){
@@ -43,6 +48,7 @@ public class OneToManyTest {
 
         System.out.println("\n ===================================== Before Flush ===================================== \n");
         System.out.println("===================================== Expect 2 Insert Query And 1 Update Query =====================================");
+        // 추가로 UPDATE SQL 실행이란 단점이 여기서 드러남.
         em.flush();
         System.out.println("\n ===================================== After Flush ===================================== \n");
 

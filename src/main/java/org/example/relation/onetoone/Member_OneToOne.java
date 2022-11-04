@@ -19,7 +19,7 @@ public class Member_OneToOne {
     @Column(name = "USERNAME")
     private String username;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCKER_ID", unique = true)
     private Locker_OneToOne locker;
 }

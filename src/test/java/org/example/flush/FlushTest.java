@@ -35,7 +35,7 @@ public class FlushTest {
     }
 
     @Test
-    @DisplayName("flush를 호출하면 commit 전에도 SQL 쿼리가 쓰기 지연 저장소에서 fire 되는지")
+    @DisplayName("flush를 호출하면 commit 전에도 SQL 쿼리가 쓰기 지연 저장소에서 fire 되는지") // -> 참
     void flushTest1(){
         SomeMember someMember = new SomeMember();
         someMember.setId(1L);
@@ -70,7 +70,7 @@ public class FlushTest {
 
     @Test
     @DisplayName("flush를 호출하면 1차 캐시가 비워지는지") // 비워지지 않음
-    void flushTest2(){
+    void flushTest2() {
         SomeMember someMember = new SomeMember();
         someMember.setId(1L);
         someMember.setName("회원1");
