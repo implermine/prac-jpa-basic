@@ -1,8 +1,6 @@
 package org.example.relation;
 
 import org.example.BaseCondition;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +8,10 @@ import org.junit.jupiter.api.Test;
 public class ManyToOneTest extends BaseCondition {
     @Test
     @DisplayName("ManyToOne 객체 참조했을 때, INSERT 쿼리 잘 나가나")
+    /**
+     * UPDATE 쿼리 없이 나가는 가장 좋은 이상적인 방법.
+     * OneToManyTest.one_to_many_insert_test 가 가장 절망적인 방법.
+     */
     void check_two_distinct_insert_query(){
 
         // 부모객체 (연관관계 미주인) 먼저 생성

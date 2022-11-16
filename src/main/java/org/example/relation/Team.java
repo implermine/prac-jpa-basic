@@ -22,8 +22,11 @@ public class Team {
     private String name;
 
     @OneToMany(mappedBy = "team") // 필드명 (not Physical Database Column ID)
-    private final List<Member> members = new ArrayList<>();
+    private List<Member> members; // = new ArrayList<>();
 
+    /**
+     * 양방향 연관관계 편의 메서드
+     */
     public void addMember(Member member){
         member.changeTeam(this);
     }

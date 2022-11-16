@@ -13,8 +13,10 @@ public class OneToOneTest extends BaseCondition {
     @Test
     @DisplayName("OneToOne Test for 강제 즉시 로딩")
     /**
-     * 1. OneToOne 관계에서, FK를 갖지 않은 `연관관계 미주인` 측에서 `연관관계 주인` 즉, FK를 가진측을 LAZY하게 호출 할 수 없다.
-     * 2. Proxying 되어있는 객체를 unwrap 할때도, 하이버네이트 1차캐시에서 먼저 @Id로 객체를 탐색한다.
+     * 1. OneToOne 관계에서, FK를 갖지 않은 `연관관계 미주인` 측에서 `연관관계 주인` 즉, FK를 가진측을 LAZY하게 호출 할 수 `없다`.
+     * 2. Proxying 되어있는 객체를 unwrap 할때도, 하이버네이트 1차캐시에서 먼저 @Id로 객체를 탐색한다. // ->
+     * //-> 요거 확인해보려면 밑에 Locker에선 Member를 Lazy하게 Loading할 수 없으므로 쿼리가 나가야되는데 실제로 돌려보면 Before Find Locker와
+     * After Find Locker 사이에 쿼리는 단 한번이다. 즉 강제프록시 로딩을 할 때, 쿼리가 추가로 나가지 않고 1차캐시에서 찾았다.
      */
     void test(){
 
@@ -52,7 +54,6 @@ public class OneToOneTest extends BaseCondition {
         Member_OneToOne foundMember = em.find(Member_OneToOne.class, 3L);
         System.out.println("After Find Member");
         System.out.println(lineDivider);
-
         System.out.println(lineDivider);
         System.out.println("Before Find Locker");
         Locker_OneToOne foundLocker = em.find(Locker_OneToOne.class, 7L);
