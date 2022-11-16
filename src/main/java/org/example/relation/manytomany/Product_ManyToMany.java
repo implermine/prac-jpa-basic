@@ -21,9 +21,9 @@ public class Product_ManyToMany {
     @Column(name = "PRODUCT_NAME")
     private String productName;
 
-//    @ManyToMany(mappedBy = "productList")
-//    private List<Member_ManyToMany> memberList = new ArrayList<>();
+    @ManyToMany(mappedBy = "productList")
+    private List<Member_ManyToMany> memberList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<Member_Product_ManyToMany> productMemberList = new ArrayList<>();
+//    @OneToMany(mappedBy = "product")
+//    private List<Member_Product_ManyToMany> productMemberList = new ArrayList<>();
 }

@@ -55,7 +55,7 @@ Member가 MemberDetail을 가지고 있을때, MemberDetail과 Member는 서로 
 
 ## 테이블 레벨에서 적용되는 매핑이다.
 
-JPA는 DB의 투영이다. 따라서, WAS 레벨에서 객체를 분리하고 싶다면
+JPA는 DB의 투영이다. 따라서, DB단이 아닌 WAS 레벨에서만 객체를 분리하고 싶다면
 Inheritance 관련을 보는게 아니라
 @MappedSuperClass를 봐야함
 

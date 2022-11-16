@@ -21,17 +21,17 @@ public class Member_ManyToMany {
     @Column(name = "USERNAME")
     private String username;
 
-//    @ManyToMany
-//    @JoinTable(name = "MEMBER_PRODUCT_MAPPING",
-//            joinColumns = @JoinColumn(name = "MEMBER_ID"), // 이름 지정해 줄 수 있음 (연관관계 키) 이러면 PK이자 FK임
-//            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
-//    ) // @JoinTable이라 함은, Member도 Product도 연관관계의 주인이 아니다.
-//    // 엔티티로 승격이 더 낫다고 한다. 왜냐면 언제 추가했는지 등 추가 정보가 들어갈 수 있기 때문
-//    private List<Product_ManyToMany> productList = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT_MAPPING", // <- JOINTABLE 물리적 명칭
+            joinColumns = @JoinColumn(name = "MEMBER_ID", referencedColumnName = "ID"), // FK 명칭 (저쪽 PK)
+            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID") // 저쪽 FK 명칭 (이쪽 PK)
+    ) // @JoinTable이라 함은, Member도 Product도 연관관계의 주인이 아니다.
+    // 엔티티로 승격이 더 낫다고 한다. 왜냐면 언제 추가했는지 등 추가 정보가 들어갈 수 있기 때문
+    private List<Product_ManyToMany> productList = new ArrayList<>();
 
     /**
      * 엔티티 승격에 대해 알아보자
      */
-    @OneToMany(mappedBy = "member")
-    private List<Member_Product_ManyToMany> memberProductList = new ArrayList<>();
+//    @OneToMany(mappedBy = "member")
+//    private List<Member_Product_ManyToMany> memberProductList = new ArrayList<>();
 }
