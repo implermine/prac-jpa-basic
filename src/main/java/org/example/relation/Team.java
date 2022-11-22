@@ -30,4 +30,9 @@ public class Team {
     public void addMember(Member member){
         member.changeTeam(this);
     }
+
+    public Team(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

@@ -16,15 +16,10 @@ public class FetchTypeTest extends BaseCondition {
     void lazy(){
 
         // given
-        Team team = new Team();
-        team.setId(1L);
-        team.setName("teamA");
-        Member member = new Member();
-        member.setId(1L);
-        member.setUsername("memberA");
-        member.setTeam(team);
+        Team team = new Team(1L, "teamA");
+        Member member = new Member(1L, "memberA", team);
 
-        // 영속화 먼저 시켜야함 ref: @DisplayName(영속화 되어있지 않은 Foreign Entity는 UPDATE를 날림)
+        // 영속화 먼저 시켜야함 ref: @DisplayName(영속화 되어있지 않은 Foreign Entity는 UPDATE를 날림 ) , 그렇지 않다면 UPDATE
         em.persist(team);
         em.persist(member);
         em.flush();
@@ -40,6 +35,9 @@ public class FetchTypeTest extends BaseCondition {
         System.out.println(members.getClass()); // <- org.hibernate.collection.internal.PersistentBag (Proxy)
 
         // initialize
+        System.out.println(lineDivider);
+        System.out.println("initialize");
         Hibernate.initialize(members);
+        System.out.println(lineDivider);
     }
 }

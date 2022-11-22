@@ -11,6 +11,7 @@ import org.junit.jupiter.api.function.Executable;
 import javax.persistence.PersistenceUnitUtil;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProxyTest extends BaseCondition {
 
@@ -93,7 +94,7 @@ public class ProxyTest extends BaseCondition {
             }
         };
 
-        org.junit.jupiter.api.Assertions.assertThrows(LazyInitializationException.class,executable);
+        assertThrows(LazyInitializationException.class,executable);
 
     }
 
