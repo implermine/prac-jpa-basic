@@ -176,6 +176,7 @@ public class NPlusOneTest extends BaseCondition {
 
         for (Member member : memberList) {
             Team team = member.getTeam();
+            System.out.println(team);
         }
 
     }
