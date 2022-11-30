@@ -1,7 +1,7 @@
-package org.example.cascade.model;
+package org.example.cascade.model.notCascaded;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +12,8 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
-public class Parent {
+@Setter
+public class NotCascadedParent {
 
     @Id
     @GeneratedValue
@@ -20,23 +21,22 @@ public class Parent {
 
     private String name;
 
-    public Parent(Long id, String name) {
-        this.id = id;
+    public NotCascadedParent(String name) {
         this.name = name;
     }
 
     @OneToMany(mappedBy = "parent")
-    private List<Child> childList = new ArrayList<>();
+    private List<NotCascadedChild> childList = new ArrayList<>();
 
 
-    public void removeChild(Child child) {
+    public void removeChild(NotCascadedChild child) {
         this.childList.remove(child);
     }
 
     /**
      * 연관관계 편의 메서드
      */
-    public void addChildBoth(Child child) {
+    public void addChildBoth(NotCascadedChild child) {
         if (child == null) {
             return;
         }
@@ -46,7 +46,7 @@ public class Parent {
 
 
     // accessor:default
-    void addChild(Child child) {
+    void addChild(NotCascadedChild child) {
         if (child == null) {
             return;
         }

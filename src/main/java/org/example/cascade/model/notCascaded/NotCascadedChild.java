@@ -1,13 +1,12 @@
-package org.example.cascade.model;
+package org.example.cascade.model.notCascaded;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
-public class Child {
+public class NotCascadedChild {
 
     @Id
     @GeneratedValue
@@ -15,14 +14,13 @@ public class Child {
 
     private String name;
 
-    public Child(Long id, String name) {
-        this.id = id;
+    public NotCascadedChild(String name) {
         this.name = name;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
-    private Parent parent;
+    private NotCascadedParent parent;
 
 
     /**
@@ -31,7 +29,7 @@ public class Child {
      * <p>
      * 연관관계 편의 메서드
      */
-    public void setParentBoth(Parent parent) {
+    public void setParentBoth(NotCascadedParent parent) {
 
         // 연관관계에 null을 대입하여 연관관계를 끊어내고 싶은 경우라면
         if (parent == null) {
