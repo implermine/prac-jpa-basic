@@ -29,15 +29,15 @@ public class Parent {
     private List<Child> childList = new ArrayList<>();
 
 
-    public void removeChild(Child child){
+    public void removeChild(Child child) {
         this.childList.remove(child);
     }
 
     /**
      * 연관관계 편의 메서드
      */
-    public void addChildBoth(Child child){
-        if(child==null){
+    public void addChildBoth(Child child) {
+        if (child == null) {
             return;
         }
 
@@ -46,8 +46,8 @@ public class Parent {
 
 
     // accessor:default
-    public void addChild(Child child){
-        if(child==null){
+    void addChild(Child child) {
+        if (child == null) {
             return;
         }
 
