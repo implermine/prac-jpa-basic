@@ -1,16 +1,14 @@
-package org.example.entitylifecycle;
+package org.example.entityLifeCycle;
 
 import org.assertj.core.api.Assertions;
+import org.example.BaseCondition;
 import org.example.SomeMember;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.example.entityLifeCycle.model.IdAndGeneratedValueClass;
+import org.example.entityLifeCycle.model.IdClass;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 /**
  * 엔티티의 생명주기
@@ -23,27 +21,7 @@ import javax.persistence.Persistence;
  *
  * 삭제 (removed) : 삭제된 상태
  */
-public class EntityLifeCycleTest {
-
-    private final EntityManagerFactory emf;
-    private EntityManager em;
-    private EntityTransaction tx;
-
-    public EntityLifeCycleTest() {
-        emf = Persistence.createEntityManagerFactory("hello");
-    }
-
-    @BeforeEach
-    public void setUp(){
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-        tx.begin();
-    }
-
-    @AfterEach
-    public void tearDown(){
-        em.close();
-    }
+public class EntityLifeCycleTest extends BaseCondition {
 
     @Test
     @DisplayName("비영속 상태")
@@ -194,6 +172,55 @@ public class EntityLifeCycleTest {
          */
         tx.commit();
 
+    }
+
+    /**
+     * out-of-scope
+     */
+    @Test
+    @DisplayName("준영속 객체가 persist 되었을 때")
+    void test() {
+        /**
+         * @GeneratedValue 어노테이션이 없는 @Id가 채워져있을 경우,
+         * 준영속 관련 에러가 발생하지 않는다.
+         *
+         * 이는 비영속 상태라고 간주되기 때문.
+         *
+         * @GeneratedValue 어노테이션이 있는 @Id가 채워져있을 경우,
+         * 준영속 관련 에러가 발생한다.
+         *
+         * 이는 준영속 상태라고 간주되기 때문,
+         * 왜냐하면 @GeneratedValue가 존재하는 @Id는 DB에 persist-flush 과정을 겪어야만
+         * @Id가 존재하기 때문이다.
+         *
+         * 준영속 객체는 persist가 아닌, merge를 사용해야한다.
+         */
+
+        IdAndGeneratedValueClass obj = new IdAndGeneratedValueClass();
+        obj.setId(1L);
+
+        // detached entity passed to persist: org.example.entityLifeCycle.model.IdAndGeneratedValueClass
+
+        try{
+            em.persist(obj);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println(lineDivider);
+
+        IdClass obj2 = new IdClass();
+        obj2.setId(1L);
+
+        try{
+            em.persist(obj2);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+        //PersistentObjectException이 hibernate단에서 먼저 던져지고 javax가 받아서 변환한다.
     }
 
 }
