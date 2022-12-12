@@ -8,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 @Getter
-@Setter
 @Embeddable
 @ToString
 @NoArgsConstructor
