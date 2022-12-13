@@ -1,6 +1,7 @@
 ## Custom
 /target
 .jpb/
+src/main/java/org/example/ddlAuto
 ##
 
 HELP.md
