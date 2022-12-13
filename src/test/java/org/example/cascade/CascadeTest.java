@@ -15,7 +15,7 @@ import javax.persistence.PersistenceException;
 public class CascadeTest extends BaseCondition {
 
     @Test
-    @DisplayName("NotCascade Case")
+    @DisplayName("Cascade가 없을때 Default 행동에 대해")
     void should_not_cascaded() {
         /**
          * <시나리오>
@@ -24,11 +24,12 @@ public class CascadeTest extends BaseCondition {
          * 부모를 먼저 Insert 하고,
          * 자식을 Insert한다.
          *
-         * flush의 순서를 통해 강제로 자식을 먼저 밀어넣는다면,
-         * Update 쿼리를 이용한다.
+         * flush의 순서를 통해 강제로,
+         * 자식을 먼저 밀어넣고, 부모를 밀어넣는다면,
+         * Update 쿼리를 이용하여 자식 레코드의 FK를 수정한다.
          *
-         * 그리하여 이 테스트를 통해 알아 볼 것은, Parent에 Child가 소속되어 있더라도, `자동으로`
-         * flush를 통해 DB에 child까지 INSERT 되지 않는것을 볼 예정이다.
+         * 그리하여 이 테스트를 통해 알아 볼 것은, Child가 Parent를 필드로 소유하고, Parent가 List로 Child를 소유하더라도,
+         * `자동으로` flush를 통해 DB에 child까지 INSERT 되지 `않는것`을 볼 예정이다.
          *
          * [result]
          *
@@ -46,38 +47,6 @@ public class CascadeTest extends BaseCondition {
         em.persist(parentA);
 
         em.flush();
-    }
-
-
-    /**
-     * out-of-scope
-     */
-    @Test
-    @DisplayName("준영속 객체가 persist 되었을 때")
-    void test() {
-        /**
-         * @GeneratedValue 어노테이션이 없는 @Id가 채워져있을 경우,
-         * 준영속 관련 에러가 발생하지 않는다.
-         *
-         * 이는 비영속 상태라고 간주되기 때문.
-         *
-         * @GeneratedValue 어노테이션이 있는 @Id가 채워져있을 경우,
-         * 준영속 관련 에러가 발생한다.
-         *
-         * 이는 준영속 상태라고 간주되기 때문,
-         * 왜냐하면 @GeneratedValue가 존재하는 @Id는 DB에 persist-flush 과정을 겪어야만
-         * @Id가 존재하기 때문이다.
-         *
-         * 준영속 객체는 persist가 아닌, merge를 사용해야한다.
-         */
-
-
-        NotCascadedParent parentA = new NotCascadedParent("parentA");
-        parentA.setId(1L);
-
-        Assertions.assertThrows(PersistenceException.class, () -> em.persist(parentA));
-
-        //PersistentObjectExceptiond이 hibernate단에서 먼저 던져지고 javax가 받아서 변환한다.
     }
 
     @Test
@@ -102,6 +71,11 @@ public class CascadeTest extends BaseCondition {
 
         em.flush();
     }
+
+
+
+
+
 
 
     /**
