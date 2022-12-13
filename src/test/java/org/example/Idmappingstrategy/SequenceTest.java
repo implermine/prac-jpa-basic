@@ -1,37 +1,12 @@
 package org.example.Idmappingstrategy;
 
-import org.example.Board;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.example.BaseCondition;
+import org.example.idMappingStrategy.Board;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
-public class SequenceTest {
-
-    private final EntityManagerFactory emf;
-    private EntityManager em;
-    private EntityTransaction tx;
-
-    public SequenceTest() {
-        emf = Persistence.createEntityManagerFactory("hello");
-    }
-
-    @BeforeEach
-    public void setUp(){
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-        tx.begin();
-    }
-
-    @AfterEach
-    public void tearDown(){
-        em.close();
-    }
+public class SequenceTest extends BaseCondition {
 
     @Test
     @DisplayName("시퀀스 잘 만들어지나 테스트")
@@ -44,12 +19,12 @@ public class SequenceTest {
 
 
         System.out.println("=== Before Persist Board1");
-        // 여긴 inititation 이라 한번 부르고
+        // 여긴 inititation 이라 한번 부르고 // 1
         em.persist(board);
         System.out.println("=== After Persist Board1");
 
         System.out.println("===Before Persist board2");
-        // 여기선 실제로 allocationSize만큼 밀어야되서 부르고
+        // 여기선 실제로 allocationSize(50)만큼 밀어야되서 부르고 // 2~51
         em.persist(board2);
         System.out.println("===After Persist board2");
 
@@ -66,16 +41,25 @@ public class SequenceTest {
 
 
 
-
-        // 이곳에서 추가 시퀀스 조회 쿼리가 발생하지 않아야함, When 시퀀스 allocationSize > 1 일 때,
-
-
-
-
         System.out.println("===Before Flush");
         em.flush();
+        em.clear();
+        tx.commit();
+        em.close();
         System.out.println("===After Flush");
 
-        tx.rollback();
+        super.setUp();
+
+        Board board4 = new Board();
+        System.out.println("===Before Persist board4");
+        em.persist(board4); //여기서 시퀀스 값 52을 할당하는것을 목표로 함, 쉽지않음. was 내의 어딘가에 Sequence가 저장되어 있는데 쉽게 지워지지가 않네.
+        // 그래서 이건 그냥 4임.
+        // 그냥 DB에서 확인했을 때, SELECT NEXT VALUE FOR SOMESEQUENCE;가 101인것을 보면, 51까지 사용하고 ,52에서+49 되어(NEXT) 101인 것을 확인 할 수 있다.
+        System.out.println("===After Persist board4");
+
+        System.out.println("board4.getId() = " + board4.getId());
+
+
+
     }
 }

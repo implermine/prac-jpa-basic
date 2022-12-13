@@ -5,10 +5,6 @@ import org.example.relation.onetomany.Member_OneToMany;
 import org.example.relation.onetomany.Team_OneToMany;
 import org.junit.jupiter.api.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.util.List;
 
 /**
@@ -84,7 +80,7 @@ public class OneToManyTest extends BaseCondition {
             Team foundTeam = em.find(Team.class, 1L);
             List<Member> members = foundTeam.getMembers();
 
-            System.out.println(lineDivider);
+            System.out.println(divider);
             System.out.println(members);
         }
     }

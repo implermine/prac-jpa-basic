@@ -46,19 +46,19 @@ public class OneToOneTest extends BaseCondition {
         /**
          * Member SELECT
          */
-        System.out.println(lineDivider);
+        System.out.println(divider);
         System.out.println("Before Find Member");
         /**
          * Member는 Lazily Locker를 호출함. Proxying 성공
          */
         Member_OneToOne foundMember = em.find(Member_OneToOne.class, 3L);
         System.out.println("After Find Member");
-        System.out.println(lineDivider);
-        System.out.println(lineDivider);
+        System.out.println(divider);
+        System.out.println(divider);
         System.out.println("Before Find Locker");
         Locker_OneToOne foundLocker = em.find(Locker_OneToOne.class, 7L);
         System.out.println("After Find Locker");
-        System.out.println(lineDivider);
+        System.out.println(divider);
 
 
     }

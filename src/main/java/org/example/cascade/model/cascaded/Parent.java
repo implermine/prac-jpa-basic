@@ -25,7 +25,7 @@ public class Parent {
     }
 
 //    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL) // 원형
-    @OneToMany(mappedBy = "parent",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "parent",cascade = CascadeType.PERSIST)
     private List<Child> childList = new ArrayList<>();
 
 

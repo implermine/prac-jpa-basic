@@ -151,7 +151,7 @@ public class ManyToOneTest extends BaseCondition {
         member1.setTeam(team1);
 
         //4
-        System.out.println(lineDivider);
+        System.out.println(divider);
         em.persist(member1);
         em.flush();
     }

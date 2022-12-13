@@ -35,9 +35,9 @@ public class FetchTypeTest extends BaseCondition {
         System.out.println(members.getClass()); // <- org.hibernate.collection.internal.PersistentBag (Proxy)
 
         // initialize
-        System.out.println(lineDivider);
+        System.out.println(divider);
         System.out.println("initialize");
         Hibernate.initialize(members);
-        System.out.println(lineDivider);
+        System.out.println(divider);
     }
 }

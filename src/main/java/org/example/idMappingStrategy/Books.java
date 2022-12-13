@@ -1,4 +1,4 @@
-package org.example;
+package org.example.idMappingStrategy;
 
 import lombok.Getter;
 import lombok.Setter;

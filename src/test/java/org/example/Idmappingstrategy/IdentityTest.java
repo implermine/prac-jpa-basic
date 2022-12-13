@@ -1,6 +1,6 @@
 package org.example.Idmappingstrategy;
 
-import org.example.Books;
+import org.example.idMappingStrategy.Books;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

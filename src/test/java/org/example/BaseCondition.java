@@ -13,7 +13,7 @@ public abstract class BaseCondition {
     protected EntityManager em;
     protected EntityTransaction tx;
 
-    protected String lineDivider = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    protected String divider = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
 
     public BaseCondition() {
         emf = Persistence.createEntityManagerFactory("hello");
@@ -30,5 +30,12 @@ public abstract class BaseCondition {
     public void tearDown(){
 //        tx.rollback();
         em.close();
+    }
+
+    protected void line(int val){
+
+        String format = " [ %s ] " + divider;
+
+        System.out.println(String.format(format,val));
     }
 }
