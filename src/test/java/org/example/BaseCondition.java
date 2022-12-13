@@ -38,4 +38,10 @@ public abstract class BaseCondition {
 
         System.out.println(String.format(format,val));
     }
+
+    protected void line(String str){
+        String format = " [ %s ] " + divider;
+
+        System.out.println(String.format(format,str));
+    }
 }

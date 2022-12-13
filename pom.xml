@@ -23,7 +23,7 @@
             <version>5.6.10.Final</version>
         </dependency>
 
-        H2 데이터베이스
+<!--        H2 데이터베이스-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

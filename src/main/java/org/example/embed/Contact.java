@@ -1,11 +1,13 @@
 package org.example.embed;
 
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @Embeddable
 public class Contact {
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PHONE_ID",referencedColumnName = "ID")
     private Phone phone;
 
     public String getPhoneNumber() {

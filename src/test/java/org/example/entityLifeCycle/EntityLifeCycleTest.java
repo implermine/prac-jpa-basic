@@ -207,7 +207,7 @@ public class EntityLifeCycleTest extends BaseCondition {
             e.printStackTrace();
         }
 
-        System.out.println(lineDivider);
+        System.out.println(divider);
 
         IdClass obj2 = new IdClass();
         obj2.setId(1L);

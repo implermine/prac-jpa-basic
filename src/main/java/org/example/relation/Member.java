@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name  = "MEMBER")
 public class Member {
 
     @Id
