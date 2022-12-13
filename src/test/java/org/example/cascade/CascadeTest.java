@@ -246,6 +246,34 @@ public class CascadeTest extends BaseCondition {
         // 여기선 fk 때문에 DB에서 쿼리익셉션 날 것 같긴한데 -> 이제 안남 - > 안남
     }
 
+    @Test
+    @DisplayName("왜 CASCADE를 사용해선 안되는가? DELETE")
+    void why_dont_use_cascade_delete_version(){
+
+        // given
+        Parent parentA = new Parent("parentA");
+
+        for(int i =0; i<10 ; i++){
+            parentA.addChildBoth(new Child("child"+ (i + 1)));
+        }
+
+        em.persist(parentA);
+
+        em.flush();
+        em.clear();
+
+        line("before given");
+
+        // when
+        Parent foundParent = em.find(Parent.class, 1L);
+        em.remove(foundParent);
+        line("before when");
+
+        // then
+        em.flush();
+        line("before then");
+    }
+
 
     /**
      * docs.md의 PERSIST를 함부로 사용하면 안되는 이유 링크를 참조
@@ -307,5 +335,8 @@ public class CascadeTest extends BaseCondition {
 
 
     }
+
+
+
 
 }

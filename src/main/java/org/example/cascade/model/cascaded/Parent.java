@@ -24,8 +24,8 @@ public class Parent {
         this.name = name;
     }
 
-//    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL) // 원형
-    @OneToMany(mappedBy = "parent",cascade = CascadeType.PERSIST)
+    //    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL) // 원형
+    @OneToMany(mappedBy = "parent",cascade = CascadeType.ALL)
     private List<Child> childList = new ArrayList<>();
 
 
