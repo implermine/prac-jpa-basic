@@ -19,9 +19,9 @@ public class Member_NotFound {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="TEAM_ID")
-    @NotFound(action = NotFoundAction.EXCEPTION)
-//    @JoinColumn(name = "TEAM_ID", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+//    @JoinColumn(name ="TEAM_ID")
+//    @NotFound(action = NotFoundAction.EXCEPTION)
+    @JoinColumn(name = "TEAM_ID", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private Team_NotFound team;
 
     public Member_NotFound(Long id, String name) {

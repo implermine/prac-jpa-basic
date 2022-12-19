@@ -1,7 +1,6 @@
 package org.example.embed;
 
 
-import org.assertj.core.api.Assertions;
 import org.example.BaseCondition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ public class EmbedTest extends BaseCondition {
         member.setId(1L);
         member.setName("tae gang");
         member.setWorkPeriod(new Period(LocalDateTime.MIN,LocalDateTime.MAX));
-        member.setAddress(new Address("city","street","zipCode"));
+        member.setHomeAddress(new Address("city","street","zipCode"));
 
         em.persist(member);
 
@@ -26,7 +25,7 @@ public class EmbedTest extends BaseCondition {
 
         MemberWithEmbedded foundMember = em.find(MemberWithEmbedded.class, 1L);
         System.out.println(foundMember.getWorkPeriod().toString());
-        System.out.println(foundMember.getAddress().toString());
+        System.out.println(foundMember.getHomeAddress().toString());
     }
 
     @Test
@@ -38,7 +37,7 @@ public class EmbedTest extends BaseCondition {
         member.setName("tae gang");
         member.setWorkPeriod(new Period(LocalDateTime.of(2022,3,1,0,0),LocalDateTime.of(2022,5,1,0,0)));
         member.setVacationPeriod(new Period(LocalDateTime.of(2022,6,1,0,0),LocalDateTime.of(2022,7,1,0,0)));
-        member.setAddress(new Address("city","street","zipCode"));
+        member.setHomeAddress(new Address("city","street","zipCode"));
         em.persist(member);
         em.flush();
         em.clear();
