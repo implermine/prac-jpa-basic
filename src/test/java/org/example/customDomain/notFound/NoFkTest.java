@@ -78,7 +78,7 @@ public class NoFkTest extends BaseCondition {
          */
         Member_noFk foundMember = em.find(Member_noFk.class, 1L);
         line("after find");
-        System.out.println(foundMember.getTeam().getClass()); // null하진 않다 exception이 날 뿐 (LAZY)
+//        System.out.println(foundMember.getTeam().getClass()); // null하진 않다 exception이 날 뿐 (LAZY)
 //        System.out.println(foundMember.getTeam().getName()); // exception occurs
     }
 
@@ -175,7 +175,7 @@ public class NoFkTest extends BaseCondition {
          * team iter 돌려고 하다가 proxy 까면서 EntityNotFoundException 발생함.
          *
          * 내가 예상컨데,
-         * 둘다 프록싱을 시도하고, EAGER는 쿼리 이후에, 채워지지 못한 memberA의 team proxy에 대해서 `도` 채워주려고
+         * 둘다 프록싱을 시도하고, EAGER는 쿼리 이후에, 채워지지 못한 memberA의 team proxy에 대해서 `도` 채워주려고 (못 채웠음)
          * 추가 쿼리를 발생시키다가 -> EntityNotFoundException
          *
          * LAZY는 쿼리 이후에, 뭐 알다시피 그냥 proxy 되어있는걸 까다가 EntityNotFoundException 발생

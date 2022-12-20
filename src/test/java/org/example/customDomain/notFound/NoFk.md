@@ -34,6 +34,8 @@ join 쿼리는 당연히 발생하지 않으며
 LAZY하게 쿼리를 발생시키며 EntityNotFoundException을 낼 수 있다.
 
 
-# 그럼 어캄?
+# 그럼 어캄? (결론)
 
 나도 모름, 어캄 진짜
+일단 No Fk는 해결책이 없음.
+fetch join이나 left outer join을 통해서도

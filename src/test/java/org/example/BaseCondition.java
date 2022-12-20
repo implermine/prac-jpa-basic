@@ -40,8 +40,17 @@ public abstract class BaseCondition {
     }
 
     protected void line(String str){
-        String format = " [ %s ] " + divider;
+        String format = " [ %s ] ";
+        String madeFormat = String.format(format,str);
 
-        System.out.println(String.format(format,str));
+        //make divider shorter to fit width with above and below lineDivider
+        int endIndexOfDividerToCut =  (divider.length() - 1) - madeFormat.length() + 1; // exclusive index
+        String truncatedDivider = divider.substring(0,endIndexOfDividerToCut);
+
+        System.out.println(divider);
+        System.out.println(divider);
+        System.out.println(String.format(format,str) + truncatedDivider);
+        System.out.println(divider);
+        System.out.println(divider);
     }
 }

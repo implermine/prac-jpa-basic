@@ -2,6 +2,7 @@ package org.example.customDomain.notFound;
 
 import org.assertj.core.api.Assertions;
 import org.example.BaseCondition;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,97 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 public class NotFoundTest extends BaseCondition {
+
+
+    /**
+     * 시나리오
+     *
+     * memberA, memberB는 Team1에 소속
+     * memberC는 Team2에 소속
+     *
+     * Team1을 삭제
+     */
+    @BeforeEach
+    void scenario(){
+        Member_NotFound memberA = new Member_NotFound(1L, "memberA");
+        Member_NotFound memberB = new Member_NotFound(2L, "memberB");
+        Member_NotFound memberC = new Member_NotFound(3L, "memberC");
+        Team_NotFound team1 = new Team_NotFound(1L,"team1");
+        Team_NotFound team2 = new Team_NotFound(2L,"team2");
+        memberA.changeTeam(team1);
+        memberB.changeTeam(team1);
+        memberC.changeTeam(team2);
+        em.persist(team1);
+        em.persist(team2);
+        em.persist(memberA);
+        em.persist(memberB);
+        em.persist(memberC);
+        em.flush();
+        em.clear();
+
+
+        // 삭제
+        Team_NotFound foundTeam = em.find(Team_NotFound.class, 1L);
+        em.remove(foundTeam);
+        em.flush();
+        em.clear();
+        line("After Scenario");
+    }
+
+    /**
+     * @ManyToOne(fetch = FetchType.EAGER)
+     * @JoinColumn(name ="TEAM_ID")
+     * @NotFound(action = NotFoundAction.EXCEPTION)
+     */
+    @Test
+    @DisplayName("EAGER + NotFound(exception)")
+    void notFound_and_eager(){
+        Member_NotFound member = em.find(Member_NotFound.class, 1L);
+
+        Assertions.assertThat(member).isNull(); // NoFK때랑 같은 양상을 보인다.
+
+
+        /**
+         * 재밌는것은,
+         * 이때도 EAGER 로딩이라 Hibernate 기본전략인 left outer join을 사용해서 Member를 가져오려 한다.
+         * 그러나 이때, left outer join으로 Team1을 불러오지 못했고,
+         *
+         * 이에 대해서, EAGER 로딩은 다시 또 Proxying을 해결하지 못했기에,
+         * 또 하나의 쿼리를 날린다. (SELECT * FROM TEAM t WHERE t.id = 1)
+         *
+         * 그럼에도 proxy를 해결하지 못했기에 NoFK 단건조회처럼 left outer join과 inner join 모두 null 하다.
+         *
+         * 다시 재밌는것은, JPQL을 이용해서 다건조회를 수행할땐, 이렇게 알잘딱 null값 대입을 하는일이 없다는것이다.
+         * 이렇게 알잘딱 null 대입이 있는것은 EAGER 밖에 없다. (NoFK 포함)
+         * 모든 경우에서 EntityNotFoundException이 발생했다 (NoFK)
+         *
+         * 그러나 아래 LAZY를 보면 이 경우도 EAGER 했기에, null값이 대입되는 것을 알 수 있다.
+         *
+         */
+    }
+
+    /**
+     * `그러나 아래 LAZY를 보면 이 경우도 EAGER 했기에, null값이 대입되는 것을 알 수 있다.`
+     * 를 검색하면 (바로 위)
+     * 이 경우는 NotFound 어노테이션에 의한 강제로딩에 의해 EAGER와 행동양상이 같은 것을 알 수 있다.
+     *
+     *
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * @JoinColumn(name ="TEAM_ID")
+     * @NotFound(action = NotFoundAction.EXCEPTION)
+     */
+    @Test
+    @DisplayName("LAZY + NotFound(exception)")
+    void notFound_and_lazy(){
+        Member_NotFound member = em.find(Member_NotFound.class, 1L);
+
+        Assertions.assertThat(member).isNull(); // NoFK때랑 같은 양상을 보인다.
+    }
+
+
+
+
+
 
     @Test
     @DisplayName("Not Found exception trigger")
