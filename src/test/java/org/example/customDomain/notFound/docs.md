@@ -1,5 +1,5 @@
 ## Ref
-https://thorben-janssen.com/hibernates-notfound/
+[Hibernate @NotFound](https://thorben-janssen.com/hibernates-notfound/)
 
 ## NotFound default docs 들어가면 나오는 내용
 NotFound action is... 
@@ -62,6 +62,11 @@ this = null; 이란 구문이 존재하지 않기 때문에 (https://stackoverfl
 proxy 내부에서 this object를 null하게 만들 방법이 없다.
 
 따라서, proxy에 lazy하게 null을 fetching 할 수 없기 때문에 lazy-loading이 불가하다.
+
+근데 왜 @NotFound가 아닌 상황에선 Exception(NotFoundException)이 있는데 이렇게 해 둔 걸까?
+적어도 action이 ignore가 아닌 exception을 발생시킬 만 한데, 왜 늘 EAGER일까...
+
+아무래도 runtime exception을 방지하고자하는 JPA의 컨셉 아닐까..
 ```
 
 
