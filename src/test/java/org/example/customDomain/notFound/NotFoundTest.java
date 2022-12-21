@@ -71,7 +71,7 @@ public class NotFoundTest extends BaseCondition {
          * 그럼에도 proxy를 해결하지 못했기에 NoFK 단건조회처럼 left outer join과 inner join 모두 null 하다.
          *
          * 다시 재밌는것은, JPQL을 이용해서 다건조회를 수행할땐, 이렇게 알잘딱 null값 대입을 하는일이 없다는것이다.
-         * 이렇게 알잘딱 null 대입이 있는것은 EAGER 밖에 없다. (NoFK 포함)
+         * 이렇게 알잘딱 null 대입이 있는것은 EAGER 단건 밖에 없다. (NoFK 포함)
          * 모든 경우에서 EntityNotFoundException이 발생했다 (NoFK)
          *
          * 그러나 아래 LAZY를 보면 이 경우도 EAGER 했기에, null값이 대입되는 것을 알 수 있다.
@@ -84,6 +84,9 @@ public class NotFoundTest extends BaseCondition {
      * 를 검색하면 (바로 위)
      * 이 경우는 NotFound 어노테이션에 의한 강제로딩에 의해 EAGER와 행동양상이 같은 것을 알 수 있다.
      *
+     * 이 경우에 어차피 추가 쿼리가 나갈 예정이라면, EAGER로 두어서 left outer join을 발생시키는것 보단
+     * LAZY로 두어서 쿼리크기라도 줄이는게 나아보인다.
+     *
      *
      * @ManyToOne(fetch = FetchType.LAZY)
      * @JoinColumn(name ="TEAM_ID")
@@ -95,6 +98,25 @@ public class NotFoundTest extends BaseCondition {
         Member_NotFound member = em.find(Member_NotFound.class, 1L);
 
         Assertions.assertThat(member).isNull(); // NoFK때랑 같은 양상을 보인다.
+    }
+
+    /**
+     * 그나마 차선이라 생각됨. EAGER 로딩이지만 null한
+     *
+     *
+     * @ManyToOne(fetch = FetchType.LAZY) // NotFound를 쓰면 무시 될 예정
+     * @JoinColumn(name = "TEAM_ID")
+     * @NotFound(action = NotFoundAction.IGNORE)
+     */
+    @Test
+    @DisplayName("EAGER(=LAZY) + NotFound(ignore)")
+    void notFound_ignore_and_lazy(){
+        Member_NotFound member = em.find(Member_NotFound.class, 1L);
+
+
+        // Not null 인것을 명심해야한다. 이 경우엔!
+        Assertions.assertThat(member).isNotNull();
+        Assertions.assertThat(member.getTeam()).isNull();
     }
 
 
