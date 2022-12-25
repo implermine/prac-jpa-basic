@@ -25,7 +25,7 @@ public class Member {
     // nullable=false 해 두면 inner join이다.
     @ManyToOne(fetch = FetchType.EAGER)
     // name에 이쪽 fk (실제)DB 컬럼명, referencedColumnName에 이쪽 fk가 바라보는 저쪽 (실제) DB 컬럼명
-    @JoinColumn(name = "TEAM_ID", referencedColumnName = "ID",nullable = false)
+    @JoinColumn(name = "TEAM_ID", referencedColumnName = "ID",nullable = true)
     private Team team;
 
 
