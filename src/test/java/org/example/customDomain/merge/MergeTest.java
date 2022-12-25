@@ -18,20 +18,20 @@ import static org.assertj.core.api.Assertions.*;
 
 
 /**
- * merge는 upsert이다.
- *
+ * merge는 표면적으론 UPSERT 이며, (발생하는 양상을 보았을 때,)
+ * 그 의의는 같은 @Id에 데이터를 병합하는것 그 이상 그이하도 없음.
+ * <p>
  * 다음과 같은 경우로 나뉠 수 있다. (save()를 호출 할 때, persist와 merge가 isNew()에 의해 분기되는것은 차치하고)
- *
+ * <p>
  * 1. 영속성 컨텍스트에 해당 엔티티가 존재하지 않을 때,
  * 1-1. DB에서 불러와서 영속화가 불가할 때,
  * 1-2. DB에서 불러와서 영속화가 가능할 때,
  * 1-2-1. 값이 다를 때
  * 1-2-2. 값이 같을 때
- *
+ * <p>
  * 2. 영속성 컨텍스트에 해당 엔티티가 존재할 때,
  * 2-1. 값이 다를 때,
  * 2-2. 값이 같을 때.
- *
  */
 public class MergeTest extends BaseCondition {
 
@@ -49,7 +49,7 @@ public class MergeTest extends BaseCondition {
          *
          * 따라서, merge의 반환값은 X가 아닌 X'이다.
          */
-        void case1_1(){
+        void case1_1() {
             /**
              * 영속성 컨텍스트에도 해당 엔티티가 존재하지 않으며,
              * DB에서도 가져올 수 없는 상황
@@ -57,6 +57,7 @@ public class MergeTest extends BaseCondition {
 
             Member memberA = new Member(1L, "memberA");
 
+            // 값을 merge 하려고 보니 없음, 없으니 SELECT, 이제 있으니 값 병합.
             Member mergedMember = em.merge(memberA); // SELECT 쿼리 발생
 
             em.flush(); // INSERT 쿼리 발생
@@ -74,6 +75,59 @@ public class MergeTest extends BaseCondition {
             assertThat(em.contains(memberA)).isFalse();
             assertThat(em.contains(mergedMember)).isTrue();
             assertThat(memberA).isNotSameAs(mergedMember);
+        }
+
+        @Nested
+        @DisplayName("DB에서 불러와서 영속화가 가능할 때")
+        class case1_2 {
+
+            /**
+             * 가장 많이 발생하는 케이스라 생각한다.
+             * <p>
+             * sequence를 사용하지 않아, isNew()에서 new하지 않다고 판단되었고, merge를 타게 되었으며,
+             * DB엔 데이터가 존재한다면?
+             */
+            @Test
+            @DisplayName("값이 다를 때")
+            void case1_2_1() {
+                // 미리 INSERT 해두기
+                Member memberA = new Member(1L, "memberA");
+                em.persist(memberA);
+                em.flush();
+                em.clear();
+
+                line("INSERT 끝");
+
+                Member memberB = new Member(1L, "memberB");
+                em.merge(memberB);
+
+                /**
+                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 날리지 않을까
+                 */
+                em.flush();
+
+            }
+
+            @Test
+            @DisplayName("값이 다를 때")
+            void case1_2_2() {
+                // 미리 INSERT 해두기
+                Member memberA = new Member(1L, "memberA");
+                em.persist(memberA);
+                em.flush();
+                em.clear();
+
+                line("INSERT 끝");
+
+                Member memberB = new Member(1L, "memberA");
+                em.merge(memberB);
+
+                /**
+                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 안날리지 않을까
+                 */
+                em.flush();
+
+            }
 
 
         }
@@ -81,11 +135,11 @@ public class MergeTest extends BaseCondition {
 
     @Nested
     @DisplayName("영속성 컨텍스트에 해당 엔티티가 존재할 때")
-    class case2{
+    class case2 {
 
         @Test
         @DisplayName("값이 다를 때")
-        void case2_1(){
+        void case2_1() {
             // 영속성 컨텍스트에 해당 엔티티가 존재하며
             Member memberA = new Member(1L, "memberA");
             line("before persist");
@@ -112,16 +166,45 @@ public class MergeTest extends BaseCondition {
 
             //다시말해 memberB는 detached 상태이며, 값이 다르다.
         }
+
+        @Test
+        @DisplayName("값이 같을 때")
+        void case2_2() {
+            // 영속성 컨텍스트에 해당 엔티티가 존재하며
+            Member memberA = new Member(1L, "memberA");
+            line("before persist");
+            em.persist(memberA);
+            line("after persist");
+
+
+            // 값이 다르다.
+            Member memberB = new Member(1L, "memberA");
+            line("before merge");
+            em.merge(memberB); // 이미 영속성 컨텍스트에 해당 엔티티(같은 @Id를 가진 엔티티)가 존재하니까.
+            //따로 SELECT 쿼리를 발생시키지 않음.
+            line("after merge");
+
+            line("before flush");
+            em.flush(); // 여기서 순서대로
+            // 1. INSERT
+            // 첫번째로, persist가 일어났을때 초깃값 SNAPSHOT을 찍어 뒀으며,
+            // 두번째로, merge가 일어났을 땐, 이미 영속성 컨텍스트에 해당 엔티티(같은 @Id를 가진 엔티티)가 존재하니까.
+            // 아무일도 발생하지 않았고, flush가 일어나며 더티체킹을 수행했더니 수정할 사항이 없어서 UPDATE 쿼리가 안나간다.
+            line("after flush");
+
+
+            //다시말해 memberB는 detached 상태이며, 값이 다르다.
+        }
     }
+
 
     @Test
     @DisplayName("영속성 컨텍스틍 ")
-    void test(){
+    void test() {
         //given
-        Member member = new Member(1L,"memberA");
+        Member member = new Member(1L, "memberA");
         //when
         em.merge(member);
-
 
 
         //then
@@ -130,9 +213,9 @@ public class MergeTest extends BaseCondition {
 
     @Test
     @DisplayName("SELECT query fires even on detached entity")
-    void test2(){
+    void test2() {
         //given
-        Member member = new Member(1L,"memberA");
+        Member member = new Member(1L, "memberA");
         em.persist(member);
         super.line("persist");
         em.detach(member); // detach는 PersistenceContext로부터의 Entity 삭제도 야기한다. 그러나 DB에 삭제쿼리를 날리는 행위는 아니다.
@@ -157,8 +240,8 @@ public class MergeTest extends BaseCondition {
 
     @Test
     @DisplayName("Merge 기본 동작")
-    void test3(){
-        Member member = new Member(1L,"memberA");
+    void test3() {
+        Member member = new Member(1L, "memberA");
         em.persist(member);
         member.setUsername("altered Member name");
         super.line("persist");
