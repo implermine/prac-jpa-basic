@@ -26,6 +26,7 @@ public class NotFoundTest extends BaseCondition {
         Member_NotFound memberB = new Member_NotFound(2L, "memberB");
         Member_NotFound memberC = new Member_NotFound(3L, "memberC");
         Member_NotFound memberD = new Member_NotFound(4L, "memberD");
+        Member_NotFound memberE = new Member_NotFound(5L, "memberE");
         Team_NotFound team1 = new Team_NotFound(1L,"team1");
         Team_NotFound team2 = new Team_NotFound(2L,"team2");
         memberA.changeTeam(team1);
@@ -38,6 +39,7 @@ public class NotFoundTest extends BaseCondition {
         em.persist(memberB);
         em.persist(memberC);
         em.persist(memberD);
+        em.persist(memberE);
         em.flush();
         em.clear();
 
@@ -125,13 +127,14 @@ public class NotFoundTest extends BaseCondition {
     /**
      * 다건 + IGNORE
      *
-     * 이건 흥미로운 케이스이다.
+     * 이건 더더욱 흥미로운 케이스이다.
      *
      * NotFound는 LAZY처럼 값을 불러오는게 아니다.
      *
-     * NotFound(ignore)는 EAGER하게 값을 불러오려고 하나, 영속성 컨텍스트에 존재하지 않으면,
+     * NotFound(exception)는 EAGER하게 값을 불러오려고 하나, 영속성 컨텍스트에 존재하지 않으면,
      *
-     * 즉, FK가 1로 엮여있는 Team1이 null 하다는것을 매번 확인해야한다.
+     * 즉, FK가 1로 엮여있는 Team1이 null 하다는것을 매번 확인해야한다(X), 매번 확인 할 필요가 없다.
+     * proxy 내에 EntityNotFoundException을 기억 해 놓는다.
      *
      * 따라서, 아래 테스트는 반복문 내에서 총 1 + 3번의 쿼리가 발생한다.
      *
@@ -154,9 +157,37 @@ public class NotFoundTest extends BaseCondition {
 
     }
 
+    /**
+     * NotFound의 exception을 잡아서 해결할 수 있는 방법은 없다.
+     * 강제 EAGER 이므로.
+     */
+    @Test
+    @DisplayName("EAGER(=LAZY) + NotFound(exception) + 다건")
+    void notFound_exception_and_lazy_and_many(){
+
+        List<Member_NotFound> memberList = null;
+
+        try{
+            memberList = em.createQuery("SELECT m FROM Member_NotFound m", Member_NotFound.class).getResultList();
+        }catch (Exception e){
+            //ignore
+            System.out.println("stop");
+        }
+
+//        for (Member_NotFound eachMember : memberList) {
+//            System.out.println("memberName = " + eachMember.getName());
+//            System.out.println("teamName = " + (eachMember.getTeam()!=null ? eachMember.getTeam().getName() : null));
+//            System.out.println("====================================================================================");
+//        }
+
+        System.out.println("hey check memberList");
+
+    }
 
 
 
+
+    // =================================================================================================================
 
 
     @Test

@@ -17,8 +17,8 @@ public class Member_noFk {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="TEAM_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="TEAM_ID", referencedColumnName = "ID", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT), nullable = true)
     private Team_noFk team;
 
     public Member_noFk(Long id, String name) {

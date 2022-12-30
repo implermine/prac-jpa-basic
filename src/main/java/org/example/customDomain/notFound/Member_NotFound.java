@@ -20,7 +20,7 @@ public class Member_NotFound {
 
     @ManyToOne(fetch = FetchType.LAZY) // NotFound를 쓰면 무시 될 예정
     @JoinColumn(name ="TEAM_ID")
-    @NotFound(action = NotFoundAction.IGNORE)
+    @NotFound(action = NotFoundAction.EXCEPTION)
 //    @JoinColumn(name = "TEAM_ID", foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private Team_NotFound team;
 
