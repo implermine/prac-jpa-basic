@@ -27,6 +27,7 @@ public class MemberWithEmbedded {
     // 또한, 같은 타입에 다른 DB 컬럼명을 매핑해야 되는 상황임.
     @Embedded
     @AttributeOverrides({
+            // 변수명, 컬럼명
             @AttributeOverride(name = "startDate", column = @Column(name = "VACATION_START_DATE")),
             @AttributeOverride(name = "endDate", column = @Column(name = "VACATION_END_DATE"))
     })
@@ -40,7 +41,7 @@ public class MemberWithEmbedded {
             (
                     name = "FAVORITE_FOOD", // 테이블 명
                     joinColumns = @JoinColumn(
-                            name = "MEMBER_ID" // 조인 테이블의 PK와 FK일 줄 알았는데 그냥 not null이기만하네
+                            name = "MEMBER_ID" // 조인 테이블의 ID,    (PK,FK) (식별) 일 줄 알았는데 그냥 not null이기만하네
                     )
             )
     @Column(name = "FOOD_NAME") // 예외적으로, Collection이 기본 값 타입일 때, 조인 테이블의 컬럼명을 지정할 수 있다.
@@ -51,8 +52,8 @@ public class MemberWithEmbedded {
             (
                     name = "ADDRESS", // 테이블 명
                     joinColumns = @JoinColumn(
-                            //위와 달리, 조인 테이블의 PK와 FK를 분리하고 싶다면?
-                            name = "MEMBER_ID", // 조인 테이블의 PK와 FK일 줄 알았는데 그냥 not null이기만하네
+                            //위와 달리, 조인 테이블의 PK와 FK를 분리하고 싶다면? 몰?루겠음
+                            name = "MEMBER_ID", // 조인 테이블의 ID,    (PK,FK) (식별) 일 줄 알았는데 그냥 not null이기만하네
                             referencedColumnName = "ID",
                             foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT) // 안먹네
                     )
