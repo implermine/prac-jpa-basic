@@ -27,7 +27,9 @@ public class ForcedEagerLoadingTest extends BaseCondition {
          * Team_Force에 Serializable을 구현하지 않으면, 애초에 @Id에 fk가 걸려있지 않으므로 Proxying은 당연 불가하고,
          * 그 Entity를 어떤식으로 영속화 할 지도 Member 입장에선 모르기에, Serializable이 필요해보인다.
          *
-         * 일단 lazy loading 안먹는건 확실하다.
+         * 일단 lazy loading 안먹는건 확실하다.?
+         *
+         * 정리하자면, @Id를 referencedColumn으로 하지않으면 강제 EAGER이다.
          */
 
 
