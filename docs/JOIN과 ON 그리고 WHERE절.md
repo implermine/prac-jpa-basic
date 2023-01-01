@@ -1,6 +1,16 @@
+# Summary
+
+누구랑 JOIN할 지를 고를 수 있게끔
+
+
 # BackGround
 
 [쿼리 실행 순서](https://zu-techlog.tistory.com/29)
+
+
+2023-01-01 , 모두 잊고 [ON절과 WHERE절의 차이](https://myjamong.tistory.com/229) 를 보는게 나을수도
+
+---
 
 ```text
 FROM, JOIN > WHERE, GROUP BY, HAVING > SELECT > ORDER BY
