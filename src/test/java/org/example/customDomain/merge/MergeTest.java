@@ -198,17 +198,34 @@ public class MergeTest extends BaseCondition {
     }
 
 
+    // merge 케이스 분리 이후 내용
+    // ===============================================================================================================
+
     @Test
-    @DisplayName("영속성 컨텍스틍 ")
+    @DisplayName("준영속 상태 체크")
     void test() {
         //given
         Member member = new Member(1L, "memberA");
-        //when
-        em.merge(member);
 
+        //when
+        em.persist(member);
 
         //then
-        em.flush();
+        assertThat(em.contains(member)).isTrue(); // member는 영속
+
+        //when
+        em.detach(member);
+
+        //then
+        assertThat(em.contains(member)).isFalse(); // member는 비영속( 그러나 @Id가 채워져있음 = 준영속)
+
+        //when
+        Member mergedMember = em.merge(member); // member는 그대로 비영속 . mergedMember는 영속
+
+        //then
+        assertThat(em.contains(mergedMember)).isTrue();
+        assertThat(em.contains(member)).isFalse();
+        assertThat(member).isNotSameAs(mergedMember);
     }
 
     @Test
