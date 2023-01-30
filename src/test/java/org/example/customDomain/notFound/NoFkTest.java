@@ -61,13 +61,13 @@ public class NoFkTest extends BaseCondition {
         // 이거 진짜 기묘하네
         /**
          * left outer join(Eager default)일때나, inner join(Eager, nullable=false) 일 때나,
-         * left outer join일 땐, right가 null이면 left도 null이라 해버리고,
+         * left outer join일 땐, right가 null이면 left도 null이라 해버리고, -> what?
          * inner join일 땐, right가 null이면 어차피 left도 null이니까 null 반환한다.
          *
          * join의 방향성과 관계없이, FK contraint가 없다면,
          * EAGER 기준
          * join 후에 양쪽 연관관계 (Member-Team)중에 하나라도 없다면, em.find()는 null을 반환한다.
-         * ( Member 가 없을때 null인건 em.find()할때 당연하고, Team 이 없을 때 이걸 null이라 하는게 기묘함)
+         * ( Member 가 없을때 null인건 em.find()할때 당연하고, Team만 없을 때 이걸 null이라 하는게 기묘함)
          *
          * LAZY 기준
          * join을 일단 안한다 em.find할 때,
@@ -78,7 +78,8 @@ public class NoFkTest extends BaseCondition {
          */
         Member_noFk foundMember = em.find(Member_noFk.class, 1L);
         line("after find");
-//        System.out.println(foundMember.getTeam().getClass()); // null하진 않다 exception이 날 뿐 (LAZY)
+        System.out.println(foundMember.getTeam().getClass()); // null하진 않다 exception이 날 뿐 (LAZY)
+        System.out.println(foundMember.getTeam().getId());
 //        System.out.println(foundMember.getTeam().getName()); // exception occurs
     }
 

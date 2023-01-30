@@ -45,6 +45,10 @@ public class Member {
         team.getMembers().add(this);
     }
 
+    public Member(Long id) {
+        this.id = id;
+    }
+
     public Member(Long id, String username) {
         this.id = id;
         this.username = username;

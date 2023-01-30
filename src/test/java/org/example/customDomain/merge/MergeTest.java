@@ -98,7 +98,7 @@ public class MergeTest extends BaseCondition {
 
                 line("INSERT 끝");
 
-                Member memberB = new Member(1L, "memberB");
+                Member memberB = new Member(1L);
                 em.merge(memberB);
 
                 /**

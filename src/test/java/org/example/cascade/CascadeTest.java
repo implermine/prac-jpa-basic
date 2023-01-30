@@ -28,7 +28,7 @@ public class CascadeTest extends BaseCondition {
          * 자식을 먼저 밀어넣고, 부모를 밀어넣는다면,
          * Update 쿼리를 이용하여 자식 레코드의 FK를 수정한다.
          *
-         * 그리하여 이 테스트를 통해 알아 볼 것은, Child가 Parent를 필드로 소유하고, Parent가 List로 Child를 소유하더라도,
+         * 그리하여 이 테스트를 통해 알아 볼 것은, Child가 Parent를 필드로만(채워진 값 없이) 소유하고, Parent가 List로 Child를 소유하더라도,
          * `자동으로` flush를 통해 DB에 child까지 INSERT 되지 `않는것`을 볼 예정이다.
          *
          * [result]
