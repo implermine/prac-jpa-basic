@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 public class InsertOrderTest extends BaseCondition {
 
+    /**
+     * 자동정렬 안됌.
+     */
     @Test
     @DisplayName("INSERT 순서가 em.persist()에도 관련있다. 트랜잭션 관련 쓰기 지연 저장소에 넣는 순서는 queue 처럼 선입선출이다.") // -> 아님, sorting 됨.
     /**
@@ -27,14 +30,20 @@ public class InsertOrderTest extends BaseCondition {
          * 연관관계 미주인 -> 연관관계 주인 순으로 INSERT를 해야되지만
          * em.persist() 이후, 쓰기 지연 저장소에 있는 INSERT 쿼리를 JPA가 알잘딱해서 Queing이 아니라, 우선순위를 채택하여 넣는지 테스트
          */
-        System.out.println(divider);
+        line("before persist member1");
         em.persist(member1);
-        System.out.println(divider);
-        em.persist(team1);
-        System.out.println(divider);
+        line("after persist member1");
 
+        line("before persist team1");
+        em.persist(team1);
+        line("after persist team1");
+
+
+        line("before flush");
         em.flush();
-        System.out.println(divider);
+        line("after flush");
+
+
 
         /**
          * em.persist(member1)
