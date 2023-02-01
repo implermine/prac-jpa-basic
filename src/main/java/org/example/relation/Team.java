@@ -35,4 +35,8 @@ public class Team {
         this.id = id;
         this.name = name;
     }
+
+    public Member pickOne(){
+        return this.members.stream().findAny().get();
+    }
 }
