@@ -1,8 +1,8 @@
-package org.example.customDomain.mapsIdWithEmbedded;
+package org.example.customDomain.composite;
 
 import org.example.BaseCondition;
-import org.example.customDomain.mapsIdWithEmbedded.model.Person;
-import org.example.customDomain.mapsIdWithEmbedded.model.PersonDetail;
+import org.example.customDomain.composite.model.Person;
+import org.example.customDomain.composite.model.PersonDetail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * MapsId로 지정된 필드 (보통 부모를 가르킴)의 내용을
  * this 엔티티의 Id에 투영하겠다는 의미이다.
  *
- * 다시말해, Map (this field's Id to this entity) Id 이다.
+ * 다시말해, Map (this field's Id to this entity) Id 이다. -> 반대아님? MapsId로 표현된 각 필드와 객체중에 객체의 Id를 필드에 투영이 맞지않나
  *
  * 이 MapsId는 SAVE할때만 의미가 있다.
  * https://fullstackdeveloper.guru/2021/08/24/what-is-mapsid-used-for-in-jpa-hibernate-part-1/

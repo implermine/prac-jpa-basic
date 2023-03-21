@@ -1,4 +1,4 @@
-package org.example.customDomain.mapsIdWithEmbedded.model;
+package org.example.customDomain.composite.model;
 
 import lombok.*;
 

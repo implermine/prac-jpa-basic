@@ -22,7 +22,8 @@ public class Team {
     private String name;
 
     @OneToMany(mappedBy = "team") // 필드명 (not Physical Database Column ID)
-    private List<Member> members; // = new ArrayList<>();
+    private List<Member> members  = new ArrayList<>();
+    // 20230227 new ArrayList() 주석처리 되어있는거 다시 풀었음. 뭔가 다른 테스트에서 쓰고있었다면 롤백바람
 
     /**
      * 양방향 연관관계 편의 메서드

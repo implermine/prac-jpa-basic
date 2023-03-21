@@ -23,7 +23,7 @@ public class Member {
 
     // Eager Loading Default가 left outer join이구나
     // nullable=false 해 두면 inner join이다.
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     // name에 이쪽 fk (실제)DB 컬럼명, referencedColumnName에 이쪽 fk가 바라보는 저쪽 (실제) DB 컬럼명
     @JoinColumn(name = "TEAM_ID", referencedColumnName = "ID",nullable = true)
     private Team team;
@@ -42,7 +42,7 @@ public class Member {
 
 
         this.team = team;
-        team.getMembers().add(this);
+        this.team.getMembers().add(this);
     }
 
     public Member(Long id) {
