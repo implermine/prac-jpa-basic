@@ -6,6 +6,37 @@ import org.junit.jupiter.api.Test;
 
 
 public class ManyToOneTest extends BaseCondition {
+
+    @Test
+    @DisplayName("GET")
+    void get(){
+        Team team = new Team();
+        team.setName("TeamA");
+        team.setId(1L);
+        em.persist(team);
+
+        Member member = new Member();
+        member.setUsername("memberA");
+        member.setId(1L);
+        member.setTeam(team);
+        em.persist(member);
+
+        Member member2 = new Member();
+        member2.setUsername("memberB");
+        member2.setId(2L);
+        member2.setTeam(team);
+        em.persist(member2);
+
+        em.flush();
+        em.clear();
+
+        Member foundMember = em.find(Member.class, 2L);
+
+        System.out.println("checkout");
+    }
+
+
+
     @Test
     @DisplayName("ManyToOne 객체 참조했을 때, INSERT 쿼리 잘 나가나")
     /**

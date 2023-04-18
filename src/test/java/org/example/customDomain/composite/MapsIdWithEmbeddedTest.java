@@ -46,8 +46,8 @@ public class MapsIdWithEmbeddedTest extends BaseCondition {
         //personDetail.setPerson(); // ?
         //personDetail.setPersonDetailId() // ? what should we choose?
 
-        personDetail.setPerson(person);
-        personDetail.setPersonDetailId(PersonDetail.CompositeId.of( null , "왼팔" )); //<-- 이것도 웃기네 personId는 null로 채워두는게
+        //personDetail.setPerson(person);
+        personDetail.setPersonDetailId(PersonDetail.CompositeId.of( 1L , "왼팔" )); //<-- 이것도 웃기네 personId는 null로 채워두는게
         //안웃기네 이게 왜 되냐
         em.persist(personDetail);
 

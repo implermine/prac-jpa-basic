@@ -29,6 +29,8 @@
             <property name="hibernate.highlight_sql" value="true"/>
 <!--            <property name="hibernate.use_sql_comments" value="true"/>-->
             <property name="hibernate.hbm2ddl.auto" value="create" />
+
+<!--            <property name="hibernate.default_batch_fetch_size" value="2"/>-->
 <!--            <property name="hibernate.id.new_generator_mappings" value="true"/>-->
 
 <!--            <property name="logging.level.org.hibernate.SQL" value="DEBUG"/>-->

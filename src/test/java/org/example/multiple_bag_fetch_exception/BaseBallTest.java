@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * index
@@ -14,7 +15,7 @@ import java.util.List;
 public class BaseBallTest extends BaseCondition {
 
     @BeforeEach
-    void scenario(){
+    void scenario() {
         BaseBallTeam team1 = new BaseBallTeam(1L, "team1");
         BaseBallTeam team2 = new BaseBallTeam(2L, "team2");
 
@@ -22,7 +23,7 @@ public class BaseBallTest extends BaseCondition {
         em.persist(team2);
 
 
-        BaseBallMember memberA = new BaseBallMember(1L ,"memberA", 0);
+        BaseBallMember memberA = new BaseBallMember(1L, "memberA", 0);
         BaseBallMember memberB = new BaseBallMember(2L, "memberB", 1);
         BaseBallMember memberC = new BaseBallMember(3L, "memberC", 2);
         BaseBallMember memberD = new BaseBallMember(4L, "memberD", 0);
@@ -65,19 +66,68 @@ public class BaseBallTest extends BaseCondition {
 
         line("after scenario");
     }
-
     @Test
     @DisplayName("Using a List in Single JPQL Query")
-    void test(){
+    void test() {
         String jpql = "SELECT DISTINCT baseBallTeam FROM BaseBallTeam baseBallTeam "
-                + "LEFT JOIN FETCH baseBallTeam.baseBallMembers "
-                + "LEFT JOIN FETCH baseBallTeam.baseBallTeamSongs ";
+                + "JOIN FETCH baseBallTeam.baseBallMembers "
+                + "JOIN FETCH baseBallTeam.baseBallTeamSongs ";
 
-        List<BaseBallTeam> baseBallTeams = em.createQuery(jpql, BaseBallTeam.class)
+        List<BaseBallTeam> resultList = em.createQuery(jpql, BaseBallTeam.class)
                 .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
                 .getResultList();
 
         System.out.println("hey");
+        tx.commit();
+    }
 
+
+    @Test
+    void doc1() {
+        String jpql = "SELECT DISTINCT baseBallTeam FROM BaseBallTeam baseBallTeam "
+                + "LEFT JOIN FETCH baseBallTeam.baseBallMembers "
+                + "LEFT JOIN FETCH baseBallTeam.baseBallTeamSongs ";
+
+        List<BaseBallTeam> resultList = em.createQuery(jpql, BaseBallTeam.class)
+                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                .getResultList();
+
+        for (BaseBallTeam baseBallTeam : resultList) {
+
+            System.out.println(baseBallTeam.getName());
+
+            System.out.println(" <member>");
+            List<BaseBallMember> baseBallMembers = baseBallTeam.getBaseBallMembers();
+            for (BaseBallMember baseBallMember : baseBallMembers) {
+                System.out.println("  " + baseBallMember.getName() + "/ arrangement_index : " + baseBallMember.getArrangementIndex());
+            }
+
+            System.out.println(" <teamSong>");
+            List<BaseBallTeamSong> baseBallTeamSongs = baseBallTeam.getBaseBallTeamSongs();
+            for (BaseBallTeamSong soccerTeamSong : baseBallTeamSongs) {
+                System.out.println("  " + soccerTeamSong.getId());
+            }
+        }
+    }
+
+    @Test
+    void doc2() {
+        String jpql = "SELECT DISTINCT baseBallTeam FROM BaseBallTeam baseBallTeam "
+                + "LEFT JOIN FETCH baseBallTeam.baseBallMembers "
+                + "LEFT JOIN FETCH baseBallTeam.baseBallTeamSongs ";
+
+        List<BaseBallTeam> resultList = em.createQuery(jpql, BaseBallTeam.class)
+                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                .getResultList();
+
+        BaseBallTeam baseBallTeam = resultList.stream().findAny().get();
+
+        System.out.println("song class : " + baseBallTeam.getBaseBallTeamSongs().getClass());
+        System.out.println("member class : " + baseBallTeam.getBaseBallMembers().getClass());
+    }
+
+    @Test
+    void commit() {
+        tx.commit();
     }
 }

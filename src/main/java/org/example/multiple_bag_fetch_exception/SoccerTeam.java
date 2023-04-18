@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-class SoccerTeam {
+public class SoccerTeam {
 
     @Id
     private Long id;
@@ -23,7 +23,7 @@ class SoccerTeam {
     private List<SoccerTeamSong> soccerTeamSongs;
 
     @OneToMany(mappedBy = "soccerTeam")
-    private Set<SoccerMember> soccerMembers;
+    private List<SoccerMember> soccerMembers;
 
     public SoccerTeam(Long id, String name) {
         this.id = id;

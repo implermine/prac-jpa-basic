@@ -1,6 +1,7 @@
 package org.example.relation;
 
 import lombok.*;
+import org.hibernate.annotations.LazyToOne;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

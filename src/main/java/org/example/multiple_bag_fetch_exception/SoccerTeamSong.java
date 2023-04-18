@@ -1,10 +1,10 @@
 package org.example.multiple_bag_fetch_exception;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+        import lombok.Getter;
+        import lombok.NoArgsConstructor;
+        import lombok.Setter;
 
-import javax.persistence.*;
+        import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor

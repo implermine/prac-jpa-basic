@@ -68,6 +68,10 @@ public class NoFkTest extends BaseCondition {
          * EAGER 기준
          * join 후에 양쪽 연관관계 (Member-Team)중에 하나라도 없다면, em.find()는 null을 반환한다.
          * ( Member 가 없을때 null인건 em.find()할때 당연하고, Team만 없을 때 이걸 null이라 하는게 기묘함)
+         * ++
+         * EAGER면에 nullable true면, left join 나간뒤에, team이 만약에 null이였어.
+         * 그럼 Member입장에선 반드시 Team이 FK니까 데려와야되는데(FK constraint랑 상관없는듯 정규화를 목표로 JPA가 설계되었음을 인지)
+         * 못데려왔으니 추가쿼리 한번 나가고 그래도 없으면 걍 전부 null로 만드네
          *
          * LAZY 기준
          * join을 일단 안한다 em.find할 때,
@@ -77,10 +81,16 @@ public class NoFkTest extends BaseCondition {
          *
          */
         Member_noFk foundMember = em.find(Member_noFk.class, 1L);
+        /**
+         * EAGER의 경우, left join 나가고, 추가 Team 조회 쿼리 발생하며, foundMember는 null이다-> `양쪽 null 문제 발생`
+         *
+         *
+         * LAZY의 경우 EntityNotFoundException 발생
+         */
         line("after find");
         System.out.println(foundMember.getTeam().getClass()); // null하진 않다 exception이 날 뿐 (LAZY)
         System.out.println(foundMember.getTeam().getId());
-//        System.out.println(foundMember.getTeam().getName()); // exception occurs
+        System.out.println(foundMember.getTeam().getName()); // exception occurs
     }
 
     // NoFk / Team is Deleted

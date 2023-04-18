@@ -53,12 +53,12 @@ public class NotFoundTest extends BaseCondition {
     }
 
     /**
-     * @ManyToOne(fetch = FetchType.EAGER)
+     * @ManyToOne(fetch = FetchType.EAGER) // 명시적(explicit) EAGER
      * @JoinColumn(name ="TEAM_ID")
      * @NotFound(action = NotFoundAction.EXCEPTION)
      */
     @Test
-    @DisplayName("EAGER + NotFound(exception)")
+    @DisplayName("명시적 EAGER + NotFound(exception)")
     void notFound_and_eager(){
         Member_NotFound member = em.find(Member_NotFound.class, 1L);
 
@@ -75,12 +75,11 @@ public class NotFoundTest extends BaseCondition {
          *
          * 그럼에도 proxy를 해결하지 못했기에 NoFK 단건조회처럼 left outer join과 inner join 모두 null 하다.
          *
-         * 다시 재밌는것은, JPQL을 이용해서 다건조회를 수행할땐, 이렇게 알잘딱 null값 대입을 하는일이 없다는것이다.
-         * 이렇게 알잘딱 null 대입이 있는것은 EAGER 단건 밖에 없다. (NoFK 포함)
-         * 모든 경우에서 EntityNotFoundException이 발생했다 (NoFK)
+         * 또한, 명시적 EAGER의 경우 `양쪽 null 문제` 가 다시 발생한다.
          *
-         * 그러나 아래 LAZY를 보면 이 경우도 EAGER 했기에, null값이 대입되는 것을 알 수 있다.
-         *
+         * 그럼, 묵시적 EAGER (NotFound를 이용한)은?
+         * -> NotFound(Exception)인데 exception도 안내고, 걍 양쪽 null 문제 발생함.
+         * -> 근데 명시적 EAGER와는 행동양상이 달랐다. join안하고 쿼리나감.
          */
     }
 

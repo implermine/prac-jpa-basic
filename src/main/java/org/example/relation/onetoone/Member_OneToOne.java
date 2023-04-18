@@ -20,6 +20,8 @@ public class Member_OneToOne {
     private String username;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOCKER_ID", unique = true)
+    @JoinColumn(name = "LOCKER_ID",foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT), unique = true)
     private Locker_OneToOne locker;
+
+
 }
