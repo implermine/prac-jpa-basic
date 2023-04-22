@@ -1,4 +1,4 @@
-package org.example.customDomain.composite.model;
+package org.example.customDomain.composite;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

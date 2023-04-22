@@ -1,8 +1,6 @@
 package org.example.customDomain.composite;
 
 import org.example.BaseCondition;
-import org.example.customDomain.composite.model.Person;
-import org.example.customDomain.composite.model.PersonDetail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

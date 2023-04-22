@@ -14,6 +14,9 @@ import static org.assertj.core.api.Assertions.*;
  * Ref.
  * merge 스펙
  * https://stackoverflow.com/questions/4509086/what-is-the-difference-between-persist-and-merge-in-jpa-and-hibernate/4509389#4509389
+ *
+ *
+ * https://stackoverflow.com/questions/66939760/merge-is-not-working-in-the-context-of-jpa
  */
 
 
@@ -98,11 +101,11 @@ public class MergeTest extends BaseCondition {
 
                 line("INSERT 끝");
 
-                Member memberB = new Member(1L);
+                Member memberB = new Member(1L, "memberA");
                 em.merge(memberB);
 
                 /**
-                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 날리지 않을까
+                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 안나감.
                  */
                 em.flush();
 
@@ -119,11 +122,22 @@ public class MergeTest extends BaseCondition {
 
                 line("INSERT 끝");
 
-                Member memberB = new Member(1L, "memberA");
+                Member memberB = new Member(1L, "memberB"); //memberB는 ID로 SELECT 후 영속화가 가능하기에 detached라고 간주된다.
+
+                /**
+                 * 여기서 일어나는 일.
+                 * If X is a detached entity,
+                 *  the state of X is copied onto a pre-existing managed entity instance X' of the same identity
+                 *  or a new managed copy X' of X is created.
+                 *
+                 *
+                 * 1. memberB는 detached entity이다.
+                 * 2. memberB의 상태(state = username)는 X`(=memberA)로 copy된다.
+                 */
                 em.merge(memberB);
 
                 /**
-                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 안날리지 않을까
+                 * merge하려고, SELECT 쿼리 날리고, 있으니까 영속화하고, merge한 후에 UPDATE 쿼리 날린다.
                  */
                 em.flush();
 
@@ -270,6 +284,12 @@ public class MergeTest extends BaseCondition {
         // 이번엔 flush 타이밍에 INSERT, UPDATE 쿼리가 나갔다,
         // 생성되는 지연 쓰기 쿼리 저장소에서 각 연산마다 보간을 수행하는것이 아니므로,
         // 순번대로, INSERT, UPDATE 쿼리가 각각 발생했다.
+    }
+
+    @Test
+    @DisplayName("엔티티가 DB에 존재하는지 체크하고, 없을때만 저장하려고하는데 어떻게 해야해?")
+    void test4(){
+
     }
 
 

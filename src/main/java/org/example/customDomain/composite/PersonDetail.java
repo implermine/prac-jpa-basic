@@ -1,4 +1,4 @@
-package org.example.customDomain.composite.model;
+package org.example.customDomain.composite;
 
 import lombok.*;
 
@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Table(name ="PERSON_DETAIL")
 @Entity
 public class PersonDetail {
+
     @EmbeddedId
     private CompositeId personDetailId;
 
